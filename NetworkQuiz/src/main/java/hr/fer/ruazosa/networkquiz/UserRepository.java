@@ -1,4 +1,4 @@
-package hr.fer.ruazosa.trackexpenses;
+package hr.fer.ruazosa.networkquiz;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

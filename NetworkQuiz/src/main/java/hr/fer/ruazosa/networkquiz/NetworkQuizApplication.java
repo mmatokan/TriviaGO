@@ -1,13 +1,13 @@
-package hr.fer.ruazosa.trackexpenses;
+package hr.fer.ruazosa.networkquiz;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TrackExpensesApplication {
+public class NetworkQuizApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TrackExpensesApplication.class, args);
+		SpringApplication.run(NetworkQuizApplication.class, args);
 	}
 
 }

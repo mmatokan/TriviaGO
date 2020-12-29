@@ -1,4 +1,4 @@
-package hr.fer.ruazosa.trackexpenses;
+package hr.fer.ruazosa.networkquiz;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

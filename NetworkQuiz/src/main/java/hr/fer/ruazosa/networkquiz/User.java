@@ -1,4 +1,4 @@
-package hr.fer.ruazosa.trackexpenses;
+package hr.fer.ruazosa.networkquiz;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -11,19 +11,30 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
     private Long id;
-    @NotBlank(message = "First name cannot be emtpy")
+
+    @NotBlank(message = "First name cannot be empty")
     @Column(name = "first_name")
     private String firstName;
-    @NotBlank(message = "Last name cannot be emtpy")
+
+    @NotBlank(message = "Last name cannot be empty")
     @Column(name = "last_name")
     private String lastName;
+
     @Email(message = "Email not in correct format")
     @Column(name = "e_mail")
     private String email;
-    @NotBlank(message = "username name cannot be emtpy")
+
+    @NotBlank(message = "username name cannot be empty")
     private String username;
-    @NotBlank(message = "Password name cannot be emtpy")
+    @NotBlank(message = "Password name cannot be empty")
     private String password;
+
+    @Column(name = "score")
+    private int score;
+    @Column(name = "games_played")
+    private int gamesPlayed;
+    @Column(name = "accuracy")
+    private int accuracy;
 
     public void setId(Long id) {
         this.id = id;
@@ -49,6 +60,18 @@ public class User {
         this.password = password;
     }
 
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public void setGamesPlayed(int gamesPlayed){
+        this.gamesPlayed = gamesPlayed;
+    }
+
+    public void setAccuracy(int accuracy){
+        this.accuracy = accuracy;
+    }
+
     public Long getId() {
         return id;
     }
@@ -71,5 +94,9 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public int getScore() {
+        return this.score;
     }
 }

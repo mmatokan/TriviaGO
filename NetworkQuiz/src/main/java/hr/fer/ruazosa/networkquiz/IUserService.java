@@ -1,4 +1,4 @@
-package hr.fer.ruazosa.trackexpenses;
+package hr.fer.ruazosa.networkquiz;
 
 public interface IUserService {
     User registerUser(User user);
