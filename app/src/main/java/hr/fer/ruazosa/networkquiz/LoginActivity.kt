@@ -1,5 +1,6 @@
 package hr.fer.ruazosa.networkquiz
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -60,6 +61,11 @@ class LoginActivity : AppCompatActivity() {
             if (afterDot == false) {
                 Toast.makeText(this, "Email address is not valid", Toast.LENGTH_LONG).show()
             }
+        }
+        signUpButton.setOnClickListener{
+            val intent = Intent(this, SignUpActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 }
