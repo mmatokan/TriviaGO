@@ -2,7 +2,6 @@ package hr.fer.ruazosa.networkquiz;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 @Entity
 @Table(name="game")
@@ -13,35 +12,38 @@ public class Game {
     private Long id;
 
     @Size(min=5, message = "Game must have at least 5 questions")
-    @Column(name = "questions")
-    private List<Question> questions;
+    @Column(name = "question")
+    private int[] questionIds;
 
-    @Size(min=2, message = "Game must have at least two players")
+    @Size(min=2, message = "Game must have at least 2 players")
     @Column(name = "players")
-    private List<User> players;
+    private int[] userIds;
+
 
     public void setId(Long id){
         this.id = id;
     }
 
-    public void setQuestions(List<Question> questions){
-        this.questions = questions;
+    public void setQuestionIds(int[] questionIds){
+        this.questionIds = questionIds;
     }
 
-    public void setPlayers(List<User> players){
-        this.players = players;
+    public void setPlayerIds(int[] userIds){
+        this.userIds = userIds;
     }
 
     public Long getId(){
         return this.id;
     }
 
-    public List<Question> getQuestions(){
-        return this.questions;
+    public int[] getQuestionIds(){
+        return this.questionIds;
     }
 
-    public List<User> getPlayers(){
-        return this.players;
+    public int[] getPlayerIds(){
+        return this.userIds;
     }
+
+
 
 }
