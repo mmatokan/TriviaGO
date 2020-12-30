@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NetworkQuiz</string>
+    <string name="app_name">TriviaGO!</string>
     <string name="title_activity_sign_up">SignUpActivity</string>
     <!--
     This string is used for square devices and overridden by hello_world in
