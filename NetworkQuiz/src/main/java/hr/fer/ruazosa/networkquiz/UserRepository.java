@@ -14,4 +14,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("SELECT u FROM User u where u.username = ?1")
     List<User> findByUserName(String userName);
+
+    @Query(value = "SELECT rank FROM (SELECT username, RANK() OVER(ORDER BY score DESC) AS rank FROM Users) " +
+            "WHERE username = ?1", nativeQuery = true)
+    Integer getUserRank(String username);
+
 }

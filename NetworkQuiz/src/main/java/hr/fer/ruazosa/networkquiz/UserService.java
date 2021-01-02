@@ -32,4 +32,9 @@ public class UserService implements IUserService {
         }
         return userRepository.findByUserNameAndPassword(user.getUsername(), user.getPassword()).get(0);
     }
+
+    @Override
+    public Integer getUserRank(String username) {
+        return userRepository.getUserRank(username);
+    }
 }

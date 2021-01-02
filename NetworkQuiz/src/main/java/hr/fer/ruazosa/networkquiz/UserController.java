@@ -64,6 +64,10 @@ public class UserController {
                 return new ResponseEntity<Object>(body, HttpStatus.NOT_FOUND);
             }
         }
+    }
 
+    @GetMapping("/userRank/{username}")
+    public Integer getUserRank(@PathVariable String username){
+        return userService.getUserRank(username);
     }
 }
