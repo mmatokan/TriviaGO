@@ -73,7 +73,9 @@ class SignUpActivity : AppCompatActivity() {
 
         override fun onPostExecute(user: User?) {
             if (user != null) {
-                //if user successfully registered start profile activity
+                val intent = Intent(this@SignUpActivity, MyProfileActivity::class.java)
+                intent.putExtra("user", user)
+                startActivity(intent)
             }
             else{
                 val toast = Toast.makeText(applicationContext ,"Registration failed!", LENGTH_SHORT)

@@ -1,11 +1,18 @@
 package hr.fer.ruazosa.networkquiz
 
-import android.content.Intent
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
+import com.squareup.okhttp.ResponseBody
+import hr.fer.ruazosa.networkquiz.entity.User
+import hr.fer.ruazosa.networkquiz.net.RestFactory
 import kotlinx.android.synthetic.main.activity_my_profile.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class MyProfileActivity : AppCompatActivity() {
@@ -18,9 +25,18 @@ class MyProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_profile)
 
+        val user = intent.getSerializableExtra("user") as User
+
+        UserRank().execute(user.username)
+
         position = findViewById<TextView?>(R.id.positionNumberView)
         gamesNumber = findViewById<TextView?>(R.id.gamesNumberView)
         accuracyPercentage = findViewById<TextView?>(R.id.accuracyPercentageView)
+
+        gamesNumber?.text = user.gamesPlayed.toString()
+        accuracyPercentage?.text = user.accuracy.toString()
+        usernameTextView?.text = user.username
+        pointsNumberView?.text = user.score.toString()
 
 
         startNewGameButton.setOnClickListener {
@@ -34,6 +50,17 @@ class MyProfileActivity : AppCompatActivity() {
             toastMessage.show()
         }
 
+    }
+    private inner class UserRank: AsyncTask<String, Void, Int?>() {
+
+        override fun doInBackground(vararg username: String): Int? {
+            val rest = RestFactory.instance
+            return rest.getUserRank(username.toString())
+        }
+
+        override fun onPostExecute(rank: Int?) {
+            this@MyProfileActivity.position?.text = rank.toString()
+        }
     }
 
 

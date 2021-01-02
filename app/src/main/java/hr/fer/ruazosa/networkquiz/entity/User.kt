@@ -8,4 +8,8 @@ data class User (
     var username : String,
     var email : String,
     var password : String
-) : Serializable
+) : Serializable{
+    var accuracy: Int = 0
+    var gamesPlayed: Int = 0
+    var score: Int = 0
+}

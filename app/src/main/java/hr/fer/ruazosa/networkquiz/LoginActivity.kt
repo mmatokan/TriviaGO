@@ -43,7 +43,9 @@ class LoginActivity : AppCompatActivity() {
 
         override fun onPostExecute(user: User?) {
             if (user != null) {
-                //if user successfully logged in start profile activity
+                val intent = Intent(this@LoginActivity, MyProfileActivity::class.java)
+                intent.putExtra("user", user)
+                startActivity(intent)
             }
             else{
                 val toast = Toast.makeText(applicationContext ,"Login failed!",
