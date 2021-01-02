@@ -19,12 +19,12 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/emailEditText"
+            android:id="@+id/usernameEditText"
             android:layout_width="276dp"
             android:layout_height="51dp"
             android:backgroundTint="@color/colorWhite"
             android:ems="10"
-            android:hint="Email address"
+            android:hint="Username"
             android:inputType="textPersonName"
             android:textColor="@color/colorWhite"
             android:textColorHint="@color/colorWhite"
@@ -54,7 +54,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/emailEditText"
+            app:layout_constraintTop_toBottomOf="@+id/usernameEditText"
             app:layout_constraintVertical_bias="0.0" />
 
         <Button
