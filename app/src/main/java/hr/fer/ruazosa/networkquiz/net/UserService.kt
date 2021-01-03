@@ -9,7 +9,7 @@ import retrofit.http.Body
 import retrofit.http.Path
 import retrofit2.Call
 
-interface UserService {
+interface  UserService {
 
     @POST("/registerUser")
     fun registerUser(@Body user: User): User?

@@ -45,22 +45,23 @@ class SignUpActivity : AppCompatActivity() {
             val userEmail: String = email?.text.toString()
             val userPassword: String = password?.text.toString()
 
-           if(!android.util.Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
                 val toastMessage =
                     Toast.makeText(applicationContext, "Invalid e-mail format", Toast.LENGTH_LONG)
                 toastMessage.show()
 
+            } else {
+                val user = User(
+                    userFirstName,
+                    userLastName,
+                    userUsername,
+                    userEmail,
+                    userPassword
+                )
+
+                RegisterUser().execute(user)
+
             }
-            val user = User(
-                userFirstName,
-                userLastName,
-                userUsername,
-                userEmail,
-                userPassword
-            )
-
-            RegisterUser().execute(user)
-
         }
     }
 
