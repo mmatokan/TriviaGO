@@ -3,10 +3,7 @@ package hr.fer.ruazosa.networkquiz.net
 import com.squareup.okhttp.ResponseBody
 import hr.fer.ruazosa.networkquiz.entity.ShortUser
 import hr.fer.ruazosa.networkquiz.entity.User
-import retrofit.http.POST
-import retrofit.http.GET
-import retrofit.http.Body
-import retrofit.http.Path
+import retrofit.http.*
 import retrofit2.Call
 
 interface  UserService {
@@ -20,4 +17,6 @@ interface  UserService {
     @GET("/userRank/{id}")
     fun getUserRank(@Path("id") username: String): Int?
 
+    @GET("/usernames")
+    fun getOpponents(@Query("usernameToExclude") usernameToExclude:String) : List<String>
 }

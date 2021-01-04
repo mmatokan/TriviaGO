@@ -9,4 +9,6 @@ interface RestInterface {
     fun loginUser(user: ShortUser): User?
     fun getUserRank(username: String): Int?
     fun getCategories(count: Int): List<Category>?
+    fun getOpponents(usernameToExclude: String) : List<String>?
+
 }

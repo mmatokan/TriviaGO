@@ -36,4 +36,8 @@ class RestRetrofit : RestInterface{
     override fun getCategories(count: Int): List<Category>?{
         return questionService.listOfCategories
     }
+
+    override fun getOpponents(usernameToExclude:String): List<String>? {
+        return service.getOpponents(usernameToExclude)
+    }
 }
