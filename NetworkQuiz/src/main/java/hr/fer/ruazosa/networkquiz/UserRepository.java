@@ -19,4 +19,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "WHERE username = ?1", nativeQuery = true)
     Integer getUserRank(String username);
 
+    @Query(value = "SELECT username FROM Users WHERE username <> ?1 ", nativeQuery = true)
+    List<String> getAllUsernames(String usernameToExclude);
 }

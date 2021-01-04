@@ -10,6 +10,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -69,5 +70,10 @@ public class UserController {
     @GetMapping("/userRank/{username}")
     public Integer getUserRank(@PathVariable String username){
         return userService.getUserRank(username);
+    }
+
+    @GetMapping("/usernames")
+    public List<String> getAllUsernames(@RequestParam(name="usernameToExclude") String usernameToExclude){
+       return userService.getAllUsernames(usernameToExclude);
     }
 }
