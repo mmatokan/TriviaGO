@@ -33,9 +33,7 @@ class CategoryActivity : AppCompatActivity() {
 
         val returnButtonProf = findViewById<ImageButton>(R.id.imageButton)
         returnButtonProf.setOnClickListener{
-            val intent = Intent(this, MyProfileActivity::class.java)
-            intent.putExtra("user", user)
-            startActivity(intent)
+            onBackPressed()
             finish()
         }
         //ovo povezati s pitanjima
@@ -44,38 +42,63 @@ class CategoryActivity : AppCompatActivity() {
             val toastMessage =
                 Toast.makeText(applicationContext, "Chosen category is " + questionCategory.toUpperCase(), Toast.LENGTH_LONG)
             toastMessage.show()
+            val intent = Intent(this, ChoosePlayersActivity::class.java) //ovisi u kojem redosljedu ide; kategorija -> igraci -> pitanja?
+            intent.putExtra("user", user)
+            intent.putExtra("category", questionCategory)
+            startActivity(intent)
         }
         category2.setOnClickListener {
             questionCategory = category2.text as String
             val toastMessage =
                 Toast.makeText(applicationContext, "Chosen category is " + questionCategory.toUpperCase(), Toast.LENGTH_LONG)
             toastMessage.show()
+            val intent = Intent(this, ChoosePlayersActivity::class.java) //ovisi u kojem redosljedu ide; kategorija -> igraci -> pitanja?
+            intent.putExtra("user", user)
+            intent.putExtra("category", questionCategory)
+            startActivity(intent)
         }
         category3.setOnClickListener {
             questionCategory = category3.text as String
             val toastMessage =
                 Toast.makeText(applicationContext, "Chosen category is " + questionCategory.toUpperCase(), Toast.LENGTH_LONG)
             toastMessage.show()
+            val intent = Intent(this, ChoosePlayersActivity::class.java) //ovisi u kojem redosljedu ide; kategorija -> igraci -> pitanja?
+            intent.putExtra("user", user)
+            intent.putExtra("category", questionCategory)
+            startActivity(intent)
         }
         category4.setOnClickListener {
             questionCategory = category4.text as String
             val toastMessage =
                 Toast.makeText(applicationContext, "Chosen category is " + questionCategory.toUpperCase(), Toast.LENGTH_LONG)
             toastMessage.show()
+            val intent = Intent(this, ChoosePlayersActivity::class.java) //ovisi u kojem redosljedu ide; kategorija -> igraci -> pitanja?
+            intent.putExtra("user", user)
+            intent.putExtra("category", questionCategory)
+            startActivity(intent)
         }
         category5.setOnClickListener {
             questionCategory = category5.text as String
             val toastMessage =
                 Toast.makeText(applicationContext, "Chosen category is " + questionCategory.toUpperCase(), Toast.LENGTH_LONG)
             toastMessage.show()
+            val intent = Intent(this, ChoosePlayersActivity::class.java) //ovisi u kojem redosljedu ide; kategorija -> igraci -> pitanja?
+            intent.putExtra("user", user)
+            intent.putExtra("category", questionCategory)
+            startActivity(intent)
         }
         category6.setOnClickListener {
             questionCategory = category6.text as String
             val toastMessage =
                 Toast.makeText(applicationContext, "Chosen category is " + questionCategory.toUpperCase(), Toast.LENGTH_LONG)
             toastMessage.show()
+            val intent = Intent(this, ChoosePlayersActivity::class.java) //ovisi u kojem redosljedu ide; kategorija -> igraci -> pitanja?
+            intent.putExtra("user", user)
+            intent.putExtra("category", questionCategory)
+            startActivity(intent)
         }
     }
+
 
     private inner class Categories: AsyncTask<Void, Int, List<Category>?>() {
 
@@ -96,5 +119,5 @@ class CategoryActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {}
+    //override fun onBackPressed() {}
 }

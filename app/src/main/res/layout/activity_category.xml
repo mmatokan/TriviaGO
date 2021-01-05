@@ -25,7 +25,7 @@
         android:layout_width="267dp"
         android:layout_height="30dp"
         android:layout_marginTop="24dp"
-        android:text="New Game"
+        android:text="My Profile"
         android:textColor="@color/colorWhite"
         android:textSize="20sp"
         android:textStyle="bold"

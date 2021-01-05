@@ -34,8 +34,9 @@ class ChoosePlayersActivity : AppCompatActivity() {
         returnButton.setOnClickListener{
             val returnIntent = Intent(this, CategoryActivity::class.java) // (NewGame -> Category -> Opponents)
             returnIntent.putExtra("user",user)
-            startActivity(returnIntent)
-            finish()
+            onBackPressed()
+            //startActivity(returnIntent)
+            //finish()
         }
 
         usersRecyclerView.layoutManager = LinearLayoutManager(application)
@@ -51,6 +52,7 @@ class ChoosePlayersActivity : AppCompatActivity() {
 
         // TODO : Search functionality
         // TODO: Start game button
+        // TODO: intent.putExtra("category", questionCategory)
 
     }
 

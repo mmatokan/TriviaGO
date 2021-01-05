@@ -40,10 +40,10 @@ class MyProfileActivity : AppCompatActivity() {
 
 
         startNewGameButton.setOnClickListener {
-            val intent = Intent(this, ChoosePlayersActivity::class.java) //ovisi u kojem redosljedu ide; kategorija -> igraci -> pitanja?
+            val intent = Intent(this, CategoryActivity::class.java) //ovisi u kojem redosljedu ide; kategorija -> igraci -> pitanja?
             intent.putExtra("user", user)
             startActivity(intent)
-            finish()
+            //finish()
         }
         leaderboardButton.setOnClickListener {
             val toastMessage =

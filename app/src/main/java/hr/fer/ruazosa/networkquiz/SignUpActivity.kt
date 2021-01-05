@@ -33,8 +33,7 @@ class SignUpActivity : AppCompatActivity() {
 
         val returnButton = findViewById<ImageButton>(R.id.returnButton)
         returnButton.setOnClickListener{
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            onBackPressed()
             finish()
         }
         val signUpButtNext = findViewById<Button>(R.id.signUpButton)
