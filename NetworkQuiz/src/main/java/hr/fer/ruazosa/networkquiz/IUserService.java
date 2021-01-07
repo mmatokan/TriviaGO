@@ -7,5 +7,7 @@ public interface IUserService {
     boolean checkUsernameUnique(User user);
     User loginUser(User user);
     Integer getUserRank(String username);
+    String getUserToken(String username);
     List<String> getAllUsernames(String usernameToExclude);
+    String setNewToken(String username, String token);
 }

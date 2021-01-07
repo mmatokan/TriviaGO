@@ -21,4 +21,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query(value = "SELECT username FROM Users WHERE username <> ?1 ", nativeQuery = true)
     List<String> getAllUsernames(String usernameToExclude);
+
+    @Query(value = "SELECT token FROM Users WHERE username = ?1", nativeQuery = true)
+    String getUserToken(String username);
+
+    @Query(value= "UPDATE Users SET token = ?2 WHERE username = ?1", nativeQuery = true)
+    String setNewToken(String username, String token);
 }

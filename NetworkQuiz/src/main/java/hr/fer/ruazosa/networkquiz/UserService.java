@@ -42,4 +42,12 @@ public class UserService implements IUserService {
     public List<String> getAllUsernames(String usernameToExclude) {
         return userRepository.getAllUsernames(usernameToExclude);
     }
+
+    @Override
+    public String setNewToken(String username, String token) {
+        return userRepository.setNewToken(username, token);
+    }
+
+    @Override
+    public String getUserToken(String username){ return userRepository.getUserToken(username);}
 }

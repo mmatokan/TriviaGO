@@ -1,5 +1,7 @@
 package hr.fer.ruazosa.networkquiz;
 
+import net.bytebuddy.asm.Advice;
+import net.bytebuddy.implementation.bind.annotation.FieldValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -75,5 +77,15 @@ public class UserController {
     @GetMapping("/usernames")
     public List<String> getAllUsernames(@RequestParam(name="usernameToExclude") String usernameToExclude){
        return userService.getAllUsernames(usernameToExclude);
+    }
+
+    @GetMapping("/token/{username}")
+    public String getUserToken(@PathVariable String username){
+        return userService.getUserToken(username);
+    }
+
+    @PatchMapping("/token/{id}")
+    public String setNewToken(@PathVariable String username, @FieldValue String token){
+        return userService.setNewToken(username, token);
     }
 }

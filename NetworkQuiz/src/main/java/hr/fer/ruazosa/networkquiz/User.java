@@ -29,6 +29,10 @@ public class User {
     @NotBlank(message = "Password name cannot be empty")
     private String password;
 
+    @NotBlank(message = "Token missing")
+    @Column(name = "token")
+    private String token;
+
     @Column(name = "score")
     private int score;
     @Column(name = "games_played")
@@ -72,6 +76,8 @@ public class User {
         this.accuracy = accuracy;
     }
 
+    public void setToken(String token){this.token = token;}
+
     public Long getId() {
         return id;
     }
@@ -95,6 +101,8 @@ public class User {
     public String getPassword() {
         return password;
     }
+
+    public String getToken(){return token; }
 
     public int getScore() {
         return this.score;
