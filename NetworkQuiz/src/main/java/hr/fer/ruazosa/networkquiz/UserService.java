@@ -37,4 +37,9 @@ public class UserService implements IUserService {
     public Integer getUserRank(String username) {
         return userRepository.getUserRank(username);
     }
+
+    @Override
+    public List<String> getAllUsernames(String usernameToExclude) {
+        return userRepository.getAllUsernames(usernameToExclude);
+    }
 }
