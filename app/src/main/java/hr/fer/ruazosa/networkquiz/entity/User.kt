@@ -7,7 +7,8 @@ data class User (
     var lastName : String,
     var username : String,
     var email : String,
-    var password : String
+    var password : String,
+    var token : String
 ) : Serializable{
     var accuracy: Int = 0
     var gamesPlayed: Int = 0

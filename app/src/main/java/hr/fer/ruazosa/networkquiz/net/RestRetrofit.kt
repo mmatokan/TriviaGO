@@ -40,4 +40,12 @@ class RestRetrofit : RestInterface{
     override fun getOpponents(usernameToExclude:String): List<String>? {
         return service.getOpponents(usernameToExclude)
     }
+
+    override fun getUserToken(username: String): String? {
+        return service.getUserToken(username)
+    }
+
+    override fun setNewToken(username: String, token: String): String? {
+       return service.setNewToken(username, token)
+    }
 }

@@ -19,4 +19,11 @@ interface  UserService {
 
     @GET("/usernames")
     fun getOpponents(@Query("usernameToExclude") usernameToExclude:String) : List<String>
+
+    @GET("/token/{id}")
+    fun getUserToken(@Path("id") username: String): String?
+
+    @PATCH("/token/{id}")
+    @FormUrlEncoded
+    fun setNewToken(@Path("id") username: String, @Field("token") newToken: String): String?
 }

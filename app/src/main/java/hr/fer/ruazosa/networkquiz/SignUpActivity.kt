@@ -3,6 +3,7 @@ package hr.fer.ruazosa.networkquiz
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
@@ -10,6 +11,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import hr.fer.ruazosa.networkquiz.net.RestFactory
 import android.widget.Toast.LENGTH_SHORT
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import hr.fer.ruazosa.networkquiz.entity.User
 
 
@@ -55,11 +58,22 @@ class SignUpActivity : AppCompatActivity() {
                     userLastName,
                     userUsername,
                     userEmail,
-                    userPassword
+                    userPassword,
+                    token = ""
                 )
+                val instance = FirebaseMessaging.getInstance().token.addOnCompleteListener(
+                    OnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        //Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                        return@OnCompleteListener
+                    }
+
+                    // Get new FCM registration token
+                    val token = task.result
+                        user.token = token.toString()
+                })
 
                 RegisterUser().execute(user)
-
             }
         }
     }

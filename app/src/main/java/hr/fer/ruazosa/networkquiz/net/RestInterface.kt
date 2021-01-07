@@ -10,5 +10,7 @@ interface RestInterface {
     fun getUserRank(username: String): Int?
     fun getCategories(count: Int): List<Category>?
     fun getOpponents(usernameToExclude: String) : List<String>?
+    fun getUserToken(username: String): String?
+    fun setNewToken(username: String, token: String): String?
 
 }

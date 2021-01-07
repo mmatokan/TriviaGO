@@ -4,7 +4,10 @@ import android.content.Intent
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import hr.fer.ruazosa.networkquiz.entity.ShortUser
 import hr.fer.ruazosa.networkquiz.entity.User
 import hr.fer.ruazosa.networkquiz.net.RestFactory
@@ -38,11 +41,31 @@ class LoginActivity : AppCompatActivity() {
 
         override fun doInBackground(vararg user: ShortUser): User? {
             val rest = RestFactory.instance
-            return rest.loginUser(user[0])
+            val user = rest.loginUser(user[0])
+            /*
+            if(user != null) {
+                FirebaseMessaging.getInstance().token.addOnCompleteListener(
+                    OnCompleteListener { task ->
+                        if (!task.isSuccessful) {
+                            //Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                            return@OnCompleteListener
+                        }
+
+                        // Get new FCM registration token
+                        val token = task.result
+                        if (user.token != token.toString()) {
+                            //rest.setNewToken(user.username, token.toString()) ovo dovrsiti
+
+                        }
+                    })
+            }
+             */
+            return user
         }
 
         override fun onPostExecute(user: User?) {
             if (user != null) {
+
                 val intent = Intent(this@LoginActivity, MyProfileActivity::class.java)
                 intent.putExtra("user", user)
                 startActivity(intent)
