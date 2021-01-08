@@ -6,14 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import hr.fer.ruazosa.networkquiz.entity.SelectableUser
 import hr.fer.ruazosa.networkquiz.entity.ShortUser
 import hr.fer.ruazosa.networkquiz.entity.User
 import hr.fer.ruazosa.networkquiz.net.RestFactory
@@ -25,14 +23,15 @@ class ChoosePlayersActivity : AppCompatActivity() {
     lateinit var adapter : UserAdapter
     var newGameText: TextView? = null // Unnecessary?
     var searchText : EditText ? = null
-    lateinit var opponents : MutableList<String>
+    var startGameButton: Button? = null
+    lateinit var opponents : MutableList<SelectableUser>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_players)
 
-        // Initializing usernames and
-        opponents = mutableListOf<String>()
+        // Initializing usernames
+        opponents = mutableListOf<SelectableUser>()
         var user = intent.getSerializableExtra("user") as? User
         Users().execute(user?.username)
 
@@ -56,6 +55,8 @@ class ChoosePlayersActivity : AppCompatActivity() {
         decorator.setDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.decorator1)!!)
         usersRecyclerView.addItemDecoration(decorator)
 
+
+        // initializing search functionality ( see: filterPlayers , UserAdapter )
         searchText = findViewById(R.id.editSearchText)
         searchText?.addTextChangedListener(object: TextWatcher{
             override fun afterTextChanged(p0: Editable?) {
@@ -67,18 +68,24 @@ class ChoosePlayersActivity : AppCompatActivity() {
             }
         })
 
-        // TODO : Search functionality
-        // TODO: Start game button
-        // TODO: intent.putExtra("category", questionCategory)
+        startGameButton = findViewById(R.id.startNewGameButton)
+        startGameButton?.setOnClickListener {
+            // TODO: start game intent
+            // TODO: intent.extras : player(?), selected players(?) , category(?)
+            val text = "Not yet implemented! "
+            val toast = Toast.makeText(applicationContext,text,Toast.LENGTH_LONG)
+            toast.show()
+        }
+
 
     }
 
     private fun filterPlayers(filter:String?) {
-        var filteredList = mutableListOf<String>()
+        var filteredList = mutableListOf<SelectableUser>()
         if (filter != null ){
-            for ( username in opponents) {
-                if (username.toLowerCase().contains(filter.toLowerCase()))
-                    filteredList.add(username)
+            for ( tempUser in opponents) {
+                if (tempUser.username.toLowerCase().contains(filter.toLowerCase()))
+                    filteredList.add(tempUser)
             }
         }
         adapter.filterPlayers(filteredList)
@@ -94,7 +101,10 @@ class ChoosePlayersActivity : AppCompatActivity() {
 
         override fun onPostExecute(result: List<String>?) {
             if (result != null) {
-                opponents.addAll(result)
+                for (res in result ) {
+                    val tempUser : SelectableUser = SelectableUser(res , false)
+                    opponents.add(tempUser)
+                }
                 adapter.notifyDataSetChanged()
             }
         }

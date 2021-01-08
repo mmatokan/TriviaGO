@@ -7,10 +7,14 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import hr.fer.ruazosa.networkquiz.entity.SelectableUser
 
-class UserAdapter (val opponents: MutableList<String>) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
+class UserAdapter (val opponents: MutableList<SelectableUser>) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
-    var data : MutableList<String>? = opponents
+    var data : MutableList<SelectableUser>? = opponents
+
+    private val TYPE_INACTIVE=0
+    private val TYPE_ACTIVE=1
 
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -19,19 +23,34 @@ class UserAdapter (val opponents: MutableList<String>) : RecyclerView.Adapter<Us
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.player_item, parent , false )
+        var layout : Int? =  null
+        if (viewType == TYPE_INACTIVE ){ layout = R.layout.player_item }
+        else { layout = R.layout.player_item_selected }
+
+        val view = LayoutInflater.from(parent.context).inflate(layout, parent , false )
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.usernameTextView.text = data!![position]
+        holder.usernameTextView.text = data!![position].username
+        holder.addOpponentButton.setOnClickListener {
+            data!![position].selected = !data!![position].selected
+            notifyItemChanged(position)
+        }
     }
 
     override fun getItemCount(): Int {
         return data!!.size
     }
 
-    fun filterPlayers(filteredList : MutableList<String>){
+    override fun getItemViewType(position: Int): Int {
+        if (data?.get(position)?.selected!!){
+            return TYPE_ACTIVE
+        } else
+            return TYPE_INACTIVE
+    }
+
+    fun filterPlayers(filteredList : MutableList<SelectableUser>){
         data = filteredList
         notifyDataSetChanged()
     }
