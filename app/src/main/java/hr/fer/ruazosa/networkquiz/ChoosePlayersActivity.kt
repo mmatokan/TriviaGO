@@ -4,10 +4,14 @@ import android.content.Intent
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import hr.fer.ruazosa.networkquiz.entity.ShortUser
@@ -20,6 +24,7 @@ class ChoosePlayersActivity : AppCompatActivity() {
 
     lateinit var adapter : UserAdapter
     var newGameText: TextView? = null // Unnecessary?
+    var searchText : EditText ? = null
     lateinit var opponents : MutableList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +44,7 @@ class ChoosePlayersActivity : AppCompatActivity() {
             //finish()
         }
 
+
         usersRecyclerView.layoutManager = LinearLayoutManager(application)
 
         // Instantiating adapter and adding it to the RecyclerView
@@ -50,10 +56,32 @@ class ChoosePlayersActivity : AppCompatActivity() {
         decorator.setDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.decorator1)!!)
         usersRecyclerView.addItemDecoration(decorator)
 
+        searchText = findViewById(R.id.editSearchText)
+        searchText?.addTextChangedListener(object: TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {
+                filterPlayers(p0?.toString())
+            }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+        })
+
         // TODO : Search functionality
         // TODO: Start game button
         // TODO: intent.putExtra("category", questionCategory)
 
+    }
+
+    private fun filterPlayers(filter:String?) {
+        var filteredList = mutableListOf<String>()
+        if (filter != null ){
+            for ( username in opponents) {
+                if (username.toLowerCase().contains(filter.toLowerCase()))
+                    filteredList.add(username)
+            }
+        }
+        adapter.filterPlayers(filteredList)
     }
 
     // Get all users EXCEPT the currently logged-in ( all available opponents )
