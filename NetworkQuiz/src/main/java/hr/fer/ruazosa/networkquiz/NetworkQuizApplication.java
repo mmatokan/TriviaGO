@@ -1,12 +1,26 @@
 package hr.fer.ruazosa.networkquiz;
 
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.io.IOException;
 
 @SpringBootApplication
 public class NetworkQuizApplication {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+
+		//ovo tu po potrebi/vlastitom ip-u izmijeniti izmijeniti
+		String base_URL = "192.168.43.139";
+		FirebaseOptions options = FirebaseOptions.builder()
+				.setCredentials(GoogleCredentials.getApplicationDefault())
+				.setDatabaseUrl("http://"+ base_URL+":8080/")
+				.build();
+
+		FirebaseApp.initializeApp(options);
 		SpringApplication.run(NetworkQuizApplication.class, args);
 	}
 
