@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 @Entity
 @Table(name="question")
 public class Question {
+    //TO DO: dodaj sve sta salje json
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "question_id")

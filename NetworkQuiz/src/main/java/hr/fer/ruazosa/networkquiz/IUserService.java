@@ -10,4 +10,8 @@ public interface IUserService {
     String getUserToken(String username);
     List<String> getAllUsernames(String usernameToExclude);
     String setNewToken(String username, String token);
+    void sendGameInvitations(List<String> usernames, String message);
+    Game createGame(int questionCategory, List<User> players);
+    void joinGame(boolean answer);
+    List<User> getLeaderboard();
 }

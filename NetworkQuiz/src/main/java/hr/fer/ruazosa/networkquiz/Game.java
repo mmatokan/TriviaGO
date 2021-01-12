@@ -2,6 +2,7 @@ package hr.fer.ruazosa.networkquiz;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name="game")
@@ -19,6 +20,24 @@ public class Game {
     @Column(name = "players")
     private int[] userIds;
 
+    /*
+    private List<User> users;
+    private int numOfPlayers;
+
+    public Game(int[] userIds){
+        this.numOfPlayers = userIds.length;
+    }
+
+    public void addPlayer(User user, boolean answer){
+        if(answer){
+            users.add(user);
+        }
+        numOfPlayers--;
+        if(numOfPlayers == 0){
+            //zapocni igru
+        }
+    }
+*/
 
     public void setId(Long id){
         this.id = id;

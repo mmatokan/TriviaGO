@@ -50,4 +50,24 @@ public class UserService implements IUserService {
 
     @Override
     public String getUserToken(String username){ return userRepository.getUserToken(username);}
+
+    @Override
+    public void sendGameInvitations(List<String> usernames, String message){
+        //TO DO: send push notification
+    }
+
+    @Override
+    public Game createGame(int questionCategory, List<User> players) {
+        return null;
+    }
+
+    @Override
+    public void joinGame(boolean answer) {
+
+    }
+
+    @Override
+    public List<User> getLeaderboard() {
+        return null;
+    }
 }
