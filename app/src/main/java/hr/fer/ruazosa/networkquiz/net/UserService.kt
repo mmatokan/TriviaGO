@@ -1,6 +1,7 @@
 package hr.fer.ruazosa.networkquiz.net
 
 import com.squareup.okhttp.ResponseBody
+import hr.fer.ruazosa.networkquiz.entity.Question
 import hr.fer.ruazosa.networkquiz.entity.ShortUser
 import hr.fer.ruazosa.networkquiz.entity.User
 import retrofit.http.*
@@ -18,7 +19,7 @@ interface  UserService {
     fun getUserRank(@Path("id") username: String): User?
 
     @GET("/usernames")
-    fun getOpponents(@Query("usernameToExclude") usernameToExclude:String) : List<String>
+    fun getOpponents(@Query("usernameToExclude") usernameToExclude:String) : List<User>
 
     @GET("/token/{id}")
     fun getUserToken(@Path("id") username: String): String?
@@ -26,4 +27,7 @@ interface  UserService {
     @PATCH("/token/{id}")
     @FormUrlEncoded
     fun setNewToken(@Path("id") username: String, @Field("token") newToken: String): String?
+
+    @GET("questions/{id}")
+    fun getQuestions(@Path("id") categoryId: Int): List<Question>?
 }

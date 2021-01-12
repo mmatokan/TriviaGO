@@ -11,12 +11,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import hr.fer.ruazosa.networkquiz.entity.SelectableUser
-import hr.fer.ruazosa.networkquiz.entity.ShortUser
-import hr.fer.ruazosa.networkquiz.entity.User
+import hr.fer.ruazosa.networkquiz.entity.*
 import hr.fer.ruazosa.networkquiz.net.RestFactory
 import retrofit2.http.Url
 import kotlinx.android.synthetic.main.activity_choose_players.*
+import java.util.*
 
 class ChoosePlayersActivity : AppCompatActivity() {
 
@@ -33,6 +32,7 @@ class ChoosePlayersActivity : AppCompatActivity() {
         // Initializing usernames
         opponents = mutableListOf<SelectableUser>()
         var user = intent.getSerializableExtra("user") as? User
+        var category = intent.getSerializableExtra("category") as? Category
         Users().execute(user?.username)
 
         returnButton.setOnClickListener{
@@ -70,8 +70,8 @@ class ChoosePlayersActivity : AppCompatActivity() {
 
         startGameButton = findViewById(R.id.startNewGameButton)
         startGameButton?.setOnClickListener {
+            Questions().execute(category)
             // TODO: start game intent
-            // TODO: intent.extras : player(?), selected players(?) , category(?)
             val text = "Not yet implemented! "
             val toast = Toast.makeText(applicationContext,text,Toast.LENGTH_LONG)
             toast.show()
@@ -84,7 +84,7 @@ class ChoosePlayersActivity : AppCompatActivity() {
         var filteredList = mutableListOf<SelectableUser>()
         if (filter != null ){
             for ( tempUser in opponents) {
-                if (tempUser.username.toLowerCase().contains(filter.toLowerCase()))
+                if (tempUser.user.username.toLowerCase().contains(filter.toLowerCase()))
                     filteredList.add(tempUser)
             }
         }
@@ -92,21 +92,34 @@ class ChoosePlayersActivity : AppCompatActivity() {
     }
 
     // Get all users EXCEPT the currently logged-in ( all available opponents )
-    private inner class Users:AsyncTask< String ,Void , List<String>?>(){
+    private inner class Users:AsyncTask< String ,Void , List<User>?>(){
 
-        override fun doInBackground(vararg usernameToExclude: String): List<String>? {
+        override fun doInBackground(vararg usernameToExclude: String): List<User>? {
             val rest = RestFactory.instance
             return rest.getOpponents(usernameToExclude[0])
         }
 
-        override fun onPostExecute(result: List<String>?) {
-            if (result != null) {
-                for (res in result ) {
-                    val tempUser : SelectableUser = SelectableUser(res , false)
+        override fun onPostExecute(users: List<User>?) {
+            if (users != null) {
+                for (user in users ) {
+                    val tempUser = SelectableUser(user, false)
                     opponents.add(tempUser)
                 }
                 adapter.notifyDataSetChanged()
             }
+        }
+    }
+
+    private inner class Questions:AsyncTask<Category,Void , List<Question>?>(){
+
+        override fun doInBackground(vararg category: Category): List<Question>? {
+            val rest = RestFactory.instance
+            return rest.getQuestions(category[0].id)
+        }
+
+        override fun onPostExecute(users: List<Question>?) {
+            //create new game
+
         }
     }
 

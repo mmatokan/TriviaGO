@@ -2,8 +2,10 @@ package hr.fer.ruazosa.networkquiz.net
 
 import hr.fer.ruazosa.networkquiz.entity.ShortUser
 import hr.fer.ruazosa.networkquiz.entity.Category
+import hr.fer.ruazosa.networkquiz.entity.Question
 import hr.fer.ruazosa.networkquiz.entity.User
 import retrofit.RestAdapter
+import java.util.*
 
 class RestRetrofit : RestInterface{
 
@@ -36,7 +38,7 @@ class RestRetrofit : RestInterface{
         return questionService.listOfCategories
     }
 
-    override fun getOpponents(usernameToExclude:String): List<String>? {
+    override fun getOpponents(usernameToExclude:String): List<User>? {
         return service.getOpponents(usernameToExclude)
     }
 
@@ -46,5 +48,9 @@ class RestRetrofit : RestInterface{
 
     override fun setNewToken(username: String, token: String): String? {
        return service.setNewToken(username, token)
+    }
+
+    override fun getQuestions(categoryId: Int): List<Question>? {
+        return service.getQuestions(categoryId)
     }
 }

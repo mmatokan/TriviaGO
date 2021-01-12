@@ -32,7 +32,7 @@ class UserAdapter (val opponents: MutableList<SelectableUser>) : RecyclerView.Ad
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.usernameTextView.text = data!![position].username
+        holder.usernameTextView.text = data!![position].user.username
         holder.addOpponentButton.setOnClickListener {
             data!![position].selected = !data!![position].selected
             notifyItemChanged(position)
