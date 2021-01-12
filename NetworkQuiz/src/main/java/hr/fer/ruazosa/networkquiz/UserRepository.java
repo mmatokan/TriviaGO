@@ -18,11 +18,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = "SELECT " +
             "user_id, first_name, last_name, e_mail, username, password, token, score, games_played, accuracy," +
             " (SELECT rank FROM (SELECT username, RANK() OVER(ORDER BY score DESC) AS rank FROM Users) " +
-            " WHERE username = 'username') as rank FROM users where username = ?1", nativeQuery = true)
-    List<User> getUserRank(String username);
+            " WHERE username = ?1) as rank FROM users where username = ?1", nativeQuery = true)
+    User getUserStats(String username);
 
-    @Query(value = "SELECT username FROM Users WHERE username <> ?1 ", nativeQuery = true)
-    List<String> getAllUsernames(String usernameToExclude);
+    @Query(value = "SELECT * FROM Users WHERE username <> ?1 ", nativeQuery = true)
+    List<User> getAllUsers(String usernameToExclude);
 
     @Query(value = "SELECT token FROM Users WHERE username = ?1", nativeQuery = true)
     String getUserToken(String username);

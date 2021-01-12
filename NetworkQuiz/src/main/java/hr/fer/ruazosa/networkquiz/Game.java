@@ -3,6 +3,7 @@ package hr.fer.ruazosa.networkquiz;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="game")
@@ -14,55 +15,51 @@ public class Game {
 
     @Size(min=5, message = "Game must have at least 5 questions")
     @Column(name = "question")
-    private int[] questionIds;
+    @ElementCollection
+    private Set<Question> questions;
 
     @Size(min=2, message = "Game must have at least 2 players")
     @Column(name = "players")
-    private int[] userIds;
+    @ElementCollection
+    private Set<String> playerTokens;
 
-    /*
-    private List<User> users;
-    private int numOfPlayers;
-
-    public Game(int[] userIds){
-        this.numOfPlayers = userIds.length;
-    }
-
-    public void addPlayer(User user, boolean answer){
-        if(answer){
-            users.add(user);
-        }
-        numOfPlayers--;
-        if(numOfPlayers == 0){
-            //zapocni igru
-        }
-    }
-*/
+    @Column(name = "pending")
+    private int pending;
 
     public void setId(Long id){
         this.id = id;
     }
 
-    public void setQuestionIds(int[] questionIds){
-        this.questionIds = questionIds;
+    public void setQuestions(Set<Question> questions){
+        this.questions = questions;
     }
 
-    public void setPlayerIds(int[] userIds){
-        this.userIds = userIds;
+    public void setPlayers(Set<String> playerTokens){
+        this.playerTokens = playerTokens;
+    }
+
+    public void setPending(int pending){
+        this.pending = pending;
     }
 
     public Long getId(){
         return this.id;
     }
 
-    public int[] getQuestionIds(){
-        return this.questionIds;
+    public Set<Question> getQuestions(){
+        return this.questions;
     }
 
-    public int[] getPlayerIds(){
-        return this.userIds;
+    public Set<String> getPlayerTokens(){
+        return this.playerTokens;
     }
 
+    public int getPending(){
+        return this.pending;
+    }
 
+    public void removePlayer(String token){
+        this.playerTokens.remove(token);
+    }
 
 }

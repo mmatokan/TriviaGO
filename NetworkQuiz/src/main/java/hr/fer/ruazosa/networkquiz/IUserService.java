@@ -1,17 +1,16 @@
 package hr.fer.ruazosa.networkquiz;
 
 import java.util.List;
+import java.util.Set;
 
 public interface IUserService {
     User registerUser(User user);
     boolean checkUsernameUnique(User user);
     User loginUser(User user);
-    User getUserRank(String username);
+    User getUserStats(String username);
     String getUserToken(String username);
-    List<String> getAllUsernames(String usernameToExclude);
+    List<User> getAllUsers(String usernameToExclude);
     String setNewToken(String username, String token);
-    void sendGameInvitations(List<String> usernames, String message);
-    Game createGame(int questionCategory, List<User> players);
-    void joinGame(boolean answer);
+    int sendGameInvitations(List<String> token, String username, int gameId);
     List<User> getLeaderboard();
 }
