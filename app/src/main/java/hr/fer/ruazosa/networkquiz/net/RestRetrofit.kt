@@ -20,7 +20,6 @@ class RestRetrofit : RestInterface{
         questionService = questionRetrofit.create(CategoriesService::class.java)
     }
 
-
     override fun registerUser(user: User): User? {
         return service.registerUser(user)
     }
@@ -29,7 +28,7 @@ class RestRetrofit : RestInterface{
         return service.loginUser(user)
     }
 
-    override fun getUserRank(username: String): Int? {
+    override fun getUserRank(username: String): User? {
         return service.getUserRank(username)
     }
 

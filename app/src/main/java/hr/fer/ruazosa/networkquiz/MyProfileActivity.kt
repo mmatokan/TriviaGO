@@ -18,26 +18,12 @@ import retrofit2.Response
 
 class MyProfileActivity : AppCompatActivity() {
 
-    var position : TextView? = null
-    var gamesNumber: TextView? = null
-    var accuracyPercentage : TextView? = null
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_profile)
         var user = intent.getSerializableExtra("user") as? User
-        UserRank().execute(user?.username)
 
-        position = findViewById<TextView?>(R.id.positionNumberView)
-        gamesNumber = findViewById<TextView?>(R.id.gamesNumberView)
-        accuracyPercentage = findViewById<TextView?>(R.id.accuracyPercentageView)
-
-        gamesNumber?.text = user?.gamesPlayed.toString()
-        accuracyPercentage?.text = user?.accuracy.toString()
-        usernameTextView?.text = user?.username
-        pointsNumberView?.text = user?.score.toString()
-
+        UserRank().execute(user)
 
         startNewGameButton.setOnClickListener {
             val intent = Intent(this, CategoryActivity::class.java) //ovisi u kojem redosljedu ide; kategorija -> igraci -> pitanja?
@@ -52,15 +38,19 @@ class MyProfileActivity : AppCompatActivity() {
         }
 
     }
-    private inner class UserRank: AsyncTask<String, Void, Int?>() {
+    private inner class UserRank: AsyncTask<User, Void, User?>() {
 
-        override fun doInBackground(vararg username: String): Int? {
+        override fun doInBackground(vararg user: User): User? {
             val rest = RestFactory.instance
-            return rest.getUserRank(username.toString())
+            return rest.getUserRank(user[0].username)
+
         }
 
-        override fun onPostExecute(rank: Int?) {
-            this@MyProfileActivity.position?.text = rank.toString()
+        override fun onPostExecute(user: User?) {
+            positionNumberView?.text = user?.rank.toString()
+            gamesNumberView?.text = user?.gamesPlayed.toString()
+            accuracyPercentageView?.text = user?.accuracy.toString()
+            pointsNumberView?.text = user?.score.toString()
         }
     }
 

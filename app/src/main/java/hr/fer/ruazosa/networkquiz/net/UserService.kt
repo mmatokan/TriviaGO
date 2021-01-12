@@ -15,7 +15,7 @@ interface  UserService {
     fun loginUser(@Body user: ShortUser): User?
 
     @GET("/userRank/{id}")
-    fun getUserRank(@Path("id") username: String): Int?
+    fun getUserRank(@Path("id") username: String): User?
 
     @GET("/usernames")
     fun getOpponents(@Query("usernameToExclude") usernameToExclude:String) : List<String>

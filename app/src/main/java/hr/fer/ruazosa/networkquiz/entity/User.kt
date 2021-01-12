@@ -13,4 +13,5 @@ data class User (
     var accuracy: Int = 0
     var gamesPlayed: Int = 0
     var score: Int = 0
+    var rank: Int = 0
 }
