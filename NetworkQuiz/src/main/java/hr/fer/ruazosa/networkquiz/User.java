@@ -1,5 +1,7 @@
 package hr.fer.ruazosa.networkquiz;
 
+import net.bytebuddy.implementation.bind.annotation.Default;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -39,6 +41,8 @@ public class User {
     private int gamesPlayed;
     @Column(name = "accuracy")
     private int accuracy;
+    @Column(name = "rank")
+    private int rank = 0;
 
     public void setId(Long id) {
         this.id = id;
@@ -62,18 +66,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public void setGamesPlayed(int gamesPlayed){
-        this.gamesPlayed = gamesPlayed;
-    }
-
-    public void setAccuracy(int accuracy){
-        this.accuracy = accuracy;
     }
 
     public void setToken(String token){this.token = token;}
@@ -104,7 +96,37 @@ public class User {
 
     public String getToken(){return token; }
 
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public void setGamesPlayed(int gamesPlayed) {
+        this.gamesPlayed = gamesPlayed;
+    }
+
+    public void setAccuracy(int accuracy) {
+        this.accuracy = accuracy;
+    }
+
+    public void setRank(int rank){
+        this.rank = rank;
+    }
+
     public int getScore() {
         return this.score;
     }
+
+    public int getAccuracy(){
+        return this.accuracy;
+    }
+
+    public int getGamesPlayed(){
+        return this.gamesPlayed;
+    }
+
+    public int getRank(){
+        return this.rank;
+    }
+
+
 }

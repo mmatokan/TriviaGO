@@ -34,8 +34,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Integer getUserRank(String username) {
-        return userRepository.getUserRank(username);
+    public User getUserRank(String username) {
+        return userRepository.getUserRank(username).get(0);
     }
 
     @Override

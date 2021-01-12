@@ -70,8 +70,21 @@ public class UserController {
     }
 
     @GetMapping("/userRank/{username}")
-    public Integer getUserRank(@PathVariable String username){
-        return userService.getUserRank(username);
+    public ResponseEntity<Object> getUserStats(@PathVariable String username){
+        if (username == null) {
+            Map<String, Object> body = new LinkedHashMap<>();
+            body.put("error", "no username in path");
+            return new ResponseEntity<Object>(body, HttpStatus.NOT_ACCEPTABLE);
+        }
+        User user = userService.getUserRank(username);
+        if (user != null) {
+            return new ResponseEntity<Object>(user, HttpStatus.OK);
+        }
+        else {
+            Map<String, Object> body = new LinkedHashMap<>();
+            body.put("error", "no user found");
+            return new ResponseEntity<Object>(body, HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/usernames")
