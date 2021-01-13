@@ -19,23 +19,9 @@ public class Question {
     @Column(name = "question_answer")
     private String answer;
 
-    @Column(name = "value")
-    private int value;
+    @Column(name = "my_game_id")
+    private Long my_game_id;
 
-    @Column(name = "airdate")
-    private String airdate;
-
-    @Column(name = "created")
-    private String created_at;
-
-    @Column(name = "category_id")
-    private Long category_id;
-
-    @Column(name = "invalid_count")
-    private Long invalid_count;
-
-   // @Column(name = "category")
-   // private Category category;
 
     @ManyToOne
     @JoinColumn(name = "game_id")
@@ -56,6 +42,9 @@ public class Question {
     public void setGame(Game game){
         this.game = game;
     }
+
+    public void setMy_game_id(Long id){ this.my_game_id = id;}
+    public Long getMy_game_id(){ return this.my_game_id;}
 
     public Long getId(){
         return this.id;

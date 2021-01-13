@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,10 +17,9 @@ public class GameService implements IGameService {
 
     @Autowired
     private GameRepository gameRepository;
-    @Override
-    public List<Question> getQuestions(int categoryId) {
-        return null;
-    }
+    @Autowired
+    private QuestionRepository questionRepository;
+
 
     @Override
     public int calculateScore(List<Question> questions, List<String> answers, int timeRemaining) {
@@ -68,12 +68,21 @@ public class GameService implements IGameService {
     }
 
     @Override
+    @Transactional
     public Game createNewGame(Game game) {
-        return gameRepository.save(game);
+        Game newGame = gameRepository.save(game);
+        for(Question question: newGame.getQuestions()){
+            //question.setGame(newGame);
+            //ovo je privremeno rjesenje dok ne skuzim kako povezati OneToMany
+            question.setMy_game_id(newGame.getGameId());
+            questionRepository.save(question);
+        }
+        return newGame;
     }
 
     @Override
     public List<User> getPlayers(int gameId) {
         return gameRepository.getPlayers(gameId).getPlayers();
     }
+
 }

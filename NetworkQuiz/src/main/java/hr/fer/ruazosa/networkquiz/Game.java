@@ -16,7 +16,7 @@ public class Game {
     @Size(min=5, message = "Game must have at least 5 questions")
     @OneToMany(
             mappedBy = "game",
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.MERGE,
             orphanRemoval = true
     )
     private List<Question> questions = new ArrayList<>();
