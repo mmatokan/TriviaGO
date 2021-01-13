@@ -10,8 +10,9 @@ data class User (
     var password : String,
     var token : String
 ) : Serializable{
-    var accuracy: Int = 0
-    var gamesPlayed: Int = 0
-    var score: Int = 0
+    var id: Int = 0
+    var accuracy: Int = 1
+    var gamesPlayed: Int = 2
+    var score: Int = 3
     var rank: Int = 0
 }

@@ -12,6 +12,6 @@ interface RestInterface {
     fun getUserToken(username: String): String?
     fun setNewToken(username: String, token: String): String?
     fun getQuestions(categoryId: Int): CatQuestions?
-
-
+    fun createNewGame(game: Game): Game?
+    fun joinGameResponse(gameId: Int, response: Boolean, player: User): Game?
 }

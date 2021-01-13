@@ -50,4 +50,12 @@ class RestRetrofit : RestInterface{
     override fun getQuestions(categoryId: Int): CatQuestions? {
         return questionService.getQuestions(categoryId)
     }
+
+    override fun createNewGame(game: Game): Game? {
+        return service.createNewGame(game)
+    }
+
+    override fun joinGameResponse(gameId: Int, response: Boolean, player: User): Game? {
+        return service.joinGameResponse(gameId, response, player)
+    }
 }

@@ -47,7 +47,7 @@ class TriviagoFirebaseMessagingService : FirebaseMessagingService() {
     private fun sendNotification(messageBody: String, gameId: Int) {
         val intent = Intent(this, JoinGameActivity::class.java)
         intent.putExtra("message", messageBody)
-        intent.putExtra("game_id", gameId)
+        intent.putExtra("game_id", gameId.toString())
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
             PendingIntent.FLAG_ONE_SHOT)

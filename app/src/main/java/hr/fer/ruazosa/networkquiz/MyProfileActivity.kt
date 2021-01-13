@@ -1,7 +1,5 @@
 package hr.fer.ruazosa.networkquiz
 
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +12,7 @@ import hr.fer.ruazosa.networkquiz.net.RestFactory
 import kotlinx.android.synthetic.main.activity_my_profile.*
 import kotlinx.android.synthetic.main.join_game_dialog.view.*
 
-
+//TODO user se treba slati u svim aktivnostima kada se moze vratiti na profil
 class MyProfileActivity : AppCompatActivity() {
 
     //lateinit var reciever: BroadcastReceiver
@@ -25,6 +23,7 @@ class MyProfileActivity : AppCompatActivity() {
         var user = intent.getSerializableExtra("user") as? User
 
         usernameTextView?.text = user?.username
+
 
         UserRank().execute(user)
         /*
@@ -88,6 +87,10 @@ class MyProfileActivity : AppCompatActivity() {
             gamesNumberView?.text = user?.gamesPlayed.toString()
             accuracyPercentageView?.text = user?.accuracy.toString()
             pointsNumberView?.text = user?.score.toString()
+
+            val toastMessage =
+                Toast.makeText(applicationContext, user!!.id.toString(), Toast.LENGTH_LONG)
+            toastMessage.show()
         }
     }
 

@@ -13,9 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity
-            android:name=".JoinGameActivity">
-        </activity>
+        <activity android:name=".JoinGameActivity"></activity>
         <activity android:name=".CategoryActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".MyProfileActivity" />
@@ -50,10 +48,9 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorLightBlue" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="@string/default_notification_channel_id"/>
+            android:value="@string/default_notification_channel_id" />
     </application>
 
 </manifest>

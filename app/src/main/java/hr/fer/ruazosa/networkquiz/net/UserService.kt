@@ -1,9 +1,7 @@
 package hr.fer.ruazosa.networkquiz.net
 
 import com.squareup.okhttp.ResponseBody
-import hr.fer.ruazosa.networkquiz.entity.Question
-import hr.fer.ruazosa.networkquiz.entity.ShortUser
-import hr.fer.ruazosa.networkquiz.entity.User
+import hr.fer.ruazosa.networkquiz.entity.*
 import retrofit.http.*
 
 interface  UserService {
@@ -26,5 +24,14 @@ interface  UserService {
     @PATCH("/token/{id}")
     @FormUrlEncoded
     fun setNewToken(@Path("id") username: String, @Field("token") newToken: String): String?
+
+    @GET("questions/{id}")
+    fun getQuestions(@Path("id") categoryId: Int): CatQuestions?
+
+    @POST("/createNewGame")
+    fun createNewGame(@Body game: Game): Game?
+
+    @PATCH("/joinGame/{id}")
+    fun joinGameResponse(@Path("id") gameId: Int, @Query("response") response: Boolean, @Body player: User): Game?
 
 }
