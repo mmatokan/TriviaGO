@@ -8,5 +8,5 @@ data class CatQuestions (
     var created: String,
     var updated: String,
     var clues_count: Int,
-    var clues: List<Question>
+    var clues: List<ServiceQuestion>
 ):Serializable

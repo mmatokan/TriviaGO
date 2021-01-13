@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
@@ -24,6 +25,7 @@ class ChoosePlayersActivity : AppCompatActivity() {
     var searchText : EditText ? = null
     var startGameButton: Button? = null
     lateinit var opponents : MutableList<SelectableUser>
+
     var user: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +37,7 @@ class ChoosePlayersActivity : AppCompatActivity() {
         user = intent.getSerializableExtra("user") as? User
         var category = intent.getSerializableExtra("category") as? Int
         Users().execute(user?.username)
+
 
         returnButton.setOnClickListener{
             val returnIntent = Intent(this, CategoryActivity::class.java) // (NewGame -> Category -> Opponents)
@@ -70,7 +73,9 @@ class ChoosePlayersActivity : AppCompatActivity() {
         })
 
         startButton?.setOnClickListener {
+
             Questions().execute(category)
+
             // TODO: start game intent
             val text = "Not yet implemented! "
             val toast = Toast.makeText(applicationContext,text,Toast.LENGTH_LONG)
@@ -125,14 +130,25 @@ class ChoosePlayersActivity : AppCompatActivity() {
 
         override fun doInBackground(vararg category: Int?): CatQuestions? {
             val rest = RestFactory.instance
-            return category[0]?.let { rest.getQuestions(it) }
+            val cat : CatQuestions? = category[0]?.let { rest.getQuestions(it) }
+            Log.w("Dohvaceno", cat.toString())
+            return cat
         }
 
         override fun onPostExecute(questions: CatQuestions?) {
             //create new game
+            var i = 0
+            var questionForm: MutableList<Question> = mutableListOf()
+            for(question in questions?.clues!!){
+                if(i > 4) break
+                i++
+                var saveQuestion = Question(question.id, question.answer, question.question)
+                questionForm.add(saveQuestion)
+            }
             var players = getSelectedPlayers()
-            var newGame = Game(questions!!.clues, players, players.size - 1)
+            var newGame = Game(questionForm, players, players.size - 1)
             CreateGame().execute(newGame)
+
         }
     }
 
