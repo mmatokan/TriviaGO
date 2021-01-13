@@ -15,7 +15,6 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".JoinGameActivity">
-            android:parentActivityName=".MyProfileActivity"
         </activity>
         <activity android:name=".CategoryActivity" />
         <activity android:name=".SignUpActivity" />
