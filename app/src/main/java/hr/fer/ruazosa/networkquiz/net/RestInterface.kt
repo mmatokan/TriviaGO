@@ -1,9 +1,6 @@
 package hr.fer.ruazosa.networkquiz.net
 
-import hr.fer.ruazosa.networkquiz.entity.ShortUser
-import hr.fer.ruazosa.networkquiz.entity.Category
-import hr.fer.ruazosa.networkquiz.entity.Question
-import hr.fer.ruazosa.networkquiz.entity.User
+import hr.fer.ruazosa.networkquiz.entity.*
 import java.util.*
 
 interface RestInterface {
@@ -14,6 +11,7 @@ interface RestInterface {
     fun getOpponents(usernameToExclude: String) : List<User>?
     fun getUserToken(username: String): String?
     fun setNewToken(username: String, token: String): String?
-    fun getQuestions(categoryId: Int): List<Question>?
+    fun getQuestions(categoryId: Int): CatQuestions?
+
 
 }

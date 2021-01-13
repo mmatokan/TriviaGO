@@ -5,7 +5,6 @@ import hr.fer.ruazosa.networkquiz.entity.Question
 import hr.fer.ruazosa.networkquiz.entity.ShortUser
 import hr.fer.ruazosa.networkquiz.entity.User
 import retrofit.http.*
-import retrofit2.Call
 
 interface  UserService {
 
@@ -28,6 +27,4 @@ interface  UserService {
     @FormUrlEncoded
     fun setNewToken(@Path("id") username: String, @Field("token") newToken: String): String?
 
-    @GET("questions/{id}")
-    fun getQuestions(@Path("id") categoryId: Int): List<Question>?
 }

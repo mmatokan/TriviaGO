@@ -1,9 +1,6 @@
 package hr.fer.ruazosa.networkquiz.net
 
-import hr.fer.ruazosa.networkquiz.entity.ShortUser
-import hr.fer.ruazosa.networkquiz.entity.Category
-import hr.fer.ruazosa.networkquiz.entity.Question
-import hr.fer.ruazosa.networkquiz.entity.User
+import hr.fer.ruazosa.networkquiz.entity.*
 import retrofit.RestAdapter
 import java.util.*
 
@@ -50,7 +47,7 @@ class RestRetrofit : RestInterface{
        return service.setNewToken(username, token)
     }
 
-    override fun getQuestions(categoryId: Int): List<Question>? {
-        return service.getQuestions(categoryId)
+    override fun getQuestions(categoryId: Int): CatQuestions? {
+        return questionService.getQuestions(categoryId)
     }
 }
