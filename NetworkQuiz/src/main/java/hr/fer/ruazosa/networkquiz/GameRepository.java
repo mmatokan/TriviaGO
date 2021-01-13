@@ -1,6 +1,9 @@
 package hr.fer.ruazosa.networkquiz;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface GameRepository extends JpaRepository<User, Integer> {
+
+@Repository
+public interface GameRepository extends JpaRepository<Game, Integer> {
 }

@@ -1,11 +1,16 @@
 package hr.fer.ruazosa.networkquiz;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class GameService implements IGameService {
+
+    @Autowired
+    private GameRepository gameRepository;
     @Override
     public List<Question> getQuestions(int categoryId) {
         return null;
@@ -33,6 +38,6 @@ public class GameService implements IGameService {
 
     @Override
     public Game createNewGame(Game game) {
-        return null;
+        return gameRepository.save(game);
     }
 }

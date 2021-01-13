@@ -26,18 +26,18 @@ public class Game {
     @Column(name = "pending")
     private int pending;
 
-
-
     public void setId(Long id){
         this.id = id;
     }
 
-    public void setQuestions(Set<Question> questions){
+    public void setQuestions(Set<Question> questions) {
         this.questions = questions;
     }
+
     public void setPlayers(Set<String> playerTokens){
         this.playerTokens = playerTokens;
     }
+
 
     public void setPending(int pending){
         this.pending = pending;
@@ -51,7 +51,6 @@ public class Game {
     public Set<Question> getQuestions(){
         return this.questions;
     }
-
 
     public Set<String> getPlayerTokens(){
         return this.playerTokens;

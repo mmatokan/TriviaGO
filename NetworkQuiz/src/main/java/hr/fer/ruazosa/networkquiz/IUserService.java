@@ -1,6 +1,7 @@
 package hr.fer.ruazosa.networkquiz;
 
 import java.util.List;
+import java.util.Set;
 
 public interface IUserService {
     User registerUser(User user);
