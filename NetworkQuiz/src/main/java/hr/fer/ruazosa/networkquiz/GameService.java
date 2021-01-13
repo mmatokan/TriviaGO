@@ -26,19 +26,15 @@ public class GameService implements IGameService {
         return 0;
     }
 
+    //TODO game id samo posalji
     @Override
-    public int startGame(List<User> players, List<Question> questions) {
+    public int notifyGameStart(List<User> players, List<Question> questions) {
         //TODO add question answer and id
         List<String> tokens = new ArrayList<String>(){};
         for(User player : players){
             tokens.add(player.getToken());
         }
         MulticastMessage message = MulticastMessage.builder()
-                .putData("question1", questions.get(0).getQuestionText())
-                .putData("question2", questions.get(1).getQuestionText())
-                .putData("question3", questions.get(2).getQuestionText())
-                .putData("question4", questions.get(3).getQuestionText())
-                .putData("question5", questions.get(4).getQuestionText())
                 .addAllTokens(tokens)
                 .build();
         try{
@@ -53,6 +49,11 @@ public class GameService implements IGameService {
     }
 
     @Override
+    public Game startGame(int gameId) {
+        return null;
+    }
+
+    @Override
     public void sendWinner(User user, int score) {
 
     }
@@ -61,7 +62,7 @@ public class GameService implements IGameService {
     public Game joinGame(int gameId, List<User> players) {
         Game newGame = gameRepository.joinGame(gameId, players);
         if(newGame.getPending() == 0){
-            startGame(newGame.getPlayers(), newGame.getQuestions());
+            notifyGameStart(newGame.getPlayers(), newGame.getQuestions());
         }
         return newGame;
     }

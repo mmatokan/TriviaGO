@@ -1,7 +1,6 @@
 package hr.fer.ruazosa.networkquiz;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name="question")
@@ -10,69 +9,64 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "question_id")
-    private Long questionId;
+    private Long id;
 
     //@NotBlank(message = "Question text cannot be empty")
     @Column(name = "question_text")
-    private String questionText;
+    private String question;
 
     //@NotBlank(message = "Question answer cannot be empty")
     @Column(name = "question_answer")
-    private String questionAnswer;
+    private String answer;
 
     @Column(name = "value")
-    private int questionValue;
+    private int value;
 
     @Column(name = "airdate")
-    private String date;
+    private String airdate;
 
     @Column(name = "created")
     private String created_at;
 
-    @Column(name = "updated")
-    private String updated;
-
     @Column(name = "category_id")
     private Long category_id;
 
-    @Column(name = "game_id")
-    private String game_id;
+    @Column(name = "invalid_count")
+    private Long invalid_count;
 
    // @Column(name = "category")
    // private Category category;
 
-
-
     @ManyToOne
-    @JoinColumn(name = "gameId")
+    @JoinColumn(name = "game_id")
     private Game game;
 
-    public void setQuestionId(Long questionId){
-        this.questionId = questionId;
+    public void setId(Long id){
+        this.id = id;
     }
 
-    public void setQuestionText(String questionText){
-        this.questionText = questionText;
+    public void setQuestion(String question){
+        this.question = question;
     }
 
-    public void setQuestionAnswer(String questionAnswer){
-        this.questionAnswer = questionAnswer;
+    public void setAnswer(String answer){
+        this.answer = answer;
     }
 
     public void setGame(Game game){
         this.game = game;
     }
 
-    public Long getQuestionId(){
-        return this.questionId;
+    public Long getId(){
+        return this.id;
     }
 
-    public String getQuestionText(){
-        return this.questionText;
+    public String getQuestion(){
+        return this.question;
     }
 
-    public String getQuestionAnswer(){
-        return this.questionAnswer;
+    public String getAnswer(){
+        return this.answer;
     }
 
     public Game getGame(){

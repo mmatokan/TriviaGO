@@ -5,7 +5,8 @@ import java.util.List;
 public interface IGameService {
     List<Question> getQuestions(int categoryId); //sa servisa sa pitanjima
     int calculateScore(List<Question> questions, List<String> answers, int timeRemaining); //tocni odgovori*broj preostalih sekunda
-    int startGame(List<User> players, List<Question> questions);
+    int notifyGameStart(List<User> players, List<Question> questions);
+    Game startGame(int gameId);
     void sendWinner(User user, int score);
     Game joinGame(int gameId, List<User> players);
     Game createNewGame(Game game);

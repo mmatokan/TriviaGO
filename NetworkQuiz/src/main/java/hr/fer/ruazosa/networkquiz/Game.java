@@ -10,7 +10,7 @@ import java.util.List;
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "gameId")
+    @Column(name = "game_id")
     private Long gameId;
 
     @Size(min=5, message = "Game must have at least 5 questions")
@@ -25,7 +25,7 @@ public class Game {
     @ManyToMany
     @JoinTable(
             name = "USER_GAMES",
-            joinColumns = @JoinColumn(name = "gameId"),
+            joinColumns = @JoinColumn(name = "game_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private List<User> players = new ArrayList<>();
