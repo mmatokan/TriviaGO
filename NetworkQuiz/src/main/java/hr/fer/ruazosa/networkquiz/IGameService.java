@@ -8,4 +8,7 @@ public interface IGameService {
     int calculateScore(List<Question> questions, List<String> answers, int timeRemaining); //tocni odgovori*broj preostalih sekunda
     void startGame(List<User> players, List<Question> questions);
     void sendWinner(User user, int score);
+    void joinGame(boolean answer);
+    Game createNewGame(Game game);
+
 }

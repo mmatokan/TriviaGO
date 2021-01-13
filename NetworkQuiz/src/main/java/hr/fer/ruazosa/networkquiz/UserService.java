@@ -1,5 +1,9 @@
 package hr.fer.ruazosa.networkquiz;
 
+import com.google.firebase.messaging.BatchResponse;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingException;
+import com.google.firebase.messaging.MulticastMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,14 +38,16 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User getUserRank(String username) {
-        return userRepository.getUserRank(username).get(0);
+    public User getUserStats(String username) {
+        return userRepository.getUserStats(username);
     }
 
+
     @Override
-    public List<String> getAllUsernames(String usernameToExclude) {
-        return userRepository.getAllUsernames(usernameToExclude);
+    public List<User> getAllUsers(String usernameToExclude) {
+        return userRepository.getAllUsers(usernameToExclude);
     }
+
 
     @Override
     public String setNewToken(String username, String token) {
@@ -52,18 +58,20 @@ public class UserService implements IUserService {
     public String getUserToken(String username){ return userRepository.getUserToken(username);}
 
     @Override
-    public void sendGameInvitations(List<String> usernames, String message){
-        //TO DO: send push notification
-    }
-
-    @Override
-    public Game createGame(int questionCategory, List<User> players) {
-        return null;
-    }
-
-    @Override
-    public void joinGame(boolean answer) {
-
+    public int sendGameInvitations(List<String> token, String username, int gameId){
+        MulticastMessage message = MulticastMessage.builder()
+                .putData("message", username + " invited you to join a game")
+                .putData("game_id", String.valueOf(gameId))
+                .addAllTokens(token)
+                .build();
+        try{
+            BatchResponse response = FirebaseMessaging.getInstance().sendMulticast(message);
+            return response.getSuccessCount();
+        }
+        catch (FirebaseMessagingException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     @Override

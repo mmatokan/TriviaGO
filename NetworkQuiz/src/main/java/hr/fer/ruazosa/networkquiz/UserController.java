@@ -76,7 +76,7 @@ public class UserController {
             body.put("error", "no username in path");
             return new ResponseEntity<Object>(body, HttpStatus.NOT_ACCEPTABLE);
         }
-        User user = userService.getUserRank(username);
+        User user = userService.getUserStats(username);
         if (user != null) {
             return new ResponseEntity<Object>(user, HttpStatus.OK);
         }
@@ -88,8 +88,8 @@ public class UserController {
     }
 
     @GetMapping("/usernames")
-    public List<String> getAllUsernames(@RequestParam(name="usernameToExclude") String usernameToExclude){
-       return userService.getAllUsernames(usernameToExclude);
+    public List<User> getAllUsernames(@RequestParam(name="usernameToExclude") String usernameToExclude){
+       return userService.getAllUsers(usernameToExclude);
     }
 
     @GetMapping("/token/{username}")
@@ -101,4 +101,10 @@ public class UserController {
     public String setNewToken(@PathVariable String username, @FieldValue String token){
         return userService.setNewToken(username, token);
     }
+
+    @GetMapping("/sendGameInvitation")
+    public int sendGameInvitation(List<String> token, String username, int gameId){
+        return userService.sendGameInvitations(token, username, gameId);
+    }
+
 }

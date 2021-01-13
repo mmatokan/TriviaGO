@@ -15,8 +15,8 @@ public class NetworkQuizApplication {
 	public static void main(String[] args) throws IOException {
 
 		//ovo tu po potrebi/vlastitom ip-u izmijeniti izmijeniti
-		//String base_URL = "192.168.43.139";
-		String base_URL = "192.168.1.5"; //Monika
+		String base_URL = "192.168.5.15"; //Izabela
+		//String base_URL = "192.168.1.5"; //Monika
 		//FileInputStream refreshToken = new FileInputStream("C:\\Users\\Monika\\Downloads\\triviagoproject-firebase-adminsdk-fj1lj-0a2ce93ec5.json");
 
 		FirebaseOptions options = FirebaseOptions.builder()

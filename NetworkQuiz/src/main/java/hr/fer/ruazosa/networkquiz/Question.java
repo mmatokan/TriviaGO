@@ -20,6 +20,29 @@ public class Question {
     @Column(name = "question_answer")
     private String questionAnswer;
 
+    @Column(name = "value")
+    private int questionValue;
+
+    @Column(name = "airdate")
+    private String date;
+
+    @Column(name = "created")
+    private String created_at;
+
+    @Column(name = "updated")
+    private String updated;
+
+    @Column(name = "category_id")
+    private Long category_id;
+
+    @Column(name = "game_id")
+    private String game_id;
+
+   // @Column(name = "category")
+   // private Category category;
+
+
+
     public void setId(Long id){
         this.id = id;
     }
