@@ -79,12 +79,6 @@ public class UserService implements IUserService {
     @Override
     public List<User> getLeaderboard() {
         List<User> allUsers = userRepository.getAllUsers();
-        Collections.sort(allUsers, new Comparator<User>() {
-            @Override
-            public int compare(User t1, User t2) {
-                return (int)t1.getRank().compareTo((int)t2.getRank());
-            }
-        });
         
         return allUsers;
     }

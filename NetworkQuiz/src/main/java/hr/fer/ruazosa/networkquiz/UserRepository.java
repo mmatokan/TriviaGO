@@ -30,7 +30,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value= "UPDATE Users SET token = ?2 WHERE username = ?1", nativeQuery = true)
     String setNewToken(String username, String token);
 
-    @Query(value = "SELECT * FROM Users", nativeQuery = true)
+    @Query(value = "SELECT * FROM Users ORDER BY score, username DESC", nativeQuery = true)
     List<User> getAllUsers();
 
 }
