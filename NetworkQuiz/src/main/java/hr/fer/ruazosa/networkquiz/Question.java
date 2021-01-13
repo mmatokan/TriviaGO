@@ -10,13 +10,13 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "question_id")
-    private Long id;
+    private Long questionId;
 
-    @NotBlank(message = "Question text cannot be empty")
+    //@NotBlank(message = "Question text cannot be empty")
     @Column(name = "question_text")
     private String questionText;
 
-    @NotBlank(message = "Question answer cannot be empty")
+    //@NotBlank(message = "Question answer cannot be empty")
     @Column(name = "question_answer")
     private String questionAnswer;
 
@@ -43,8 +43,12 @@ public class Question {
 
 
 
-    public void setId(Long id){
-        this.id = id;
+    @ManyToOne
+    @JoinColumn(name = "gameId")
+    private Game game;
+
+    public void setQuestionId(Long questionId){
+        this.questionId = questionId;
     }
 
     public void setQuestionText(String questionText){
@@ -55,8 +59,12 @@ public class Question {
         this.questionAnswer = questionAnswer;
     }
 
-    public Long getId(){
-        return this.id;
+    public void setGame(Game game){
+        this.game = game;
+    }
+
+    public Long getQuestionId(){
+        return this.questionId;
     }
 
     public String getQuestionText(){
@@ -65,5 +73,9 @@ public class Question {
 
     public String getQuestionAnswer(){
         return this.questionAnswer;
+    }
+
+    public Game getGame(){
+        return this.game;
     }
 }

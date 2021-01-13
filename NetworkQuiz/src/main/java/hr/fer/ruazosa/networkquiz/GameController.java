@@ -1,10 +1,9 @@
 package hr.fer.ruazosa.networkquiz;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 @RestController
 public class GameController {
@@ -13,8 +12,21 @@ public class GameController {
     private IGameService gameService;
 
     @PostMapping("/createNewGame")
-    public Game createNewGame(@RequestBody Game game){
+    public Game createNewGame(@RequestBody Game game) {
         return gameService.createNewGame(game);
     }
 
+    @PatchMapping("/joinGame/{id}")
+    public Game joinGameResponse(@PathVariable("id") int gameId, @RequestParam("response") boolean response, @RequestBody User user){
+        List<User> players = gameService.getPlayers(gameId);
+        if(!response){
+            players.remove(user);
+        }
+        return gameService.joinGame(gameId, players);
+    }
+
+    @GetMapping("/getPlayers/{id}")
+    public List<User> getPlayers(@PathVariable("id") int gameId){
+        return gameService.getPlayers(gameId);
+    }
 }
