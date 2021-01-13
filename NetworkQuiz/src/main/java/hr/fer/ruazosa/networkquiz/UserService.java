@@ -7,8 +7,7 @@ import com.google.firebase.messaging.MulticastMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserService implements IUserService {
@@ -46,9 +45,10 @@ public class UserService implements IUserService {
 
 
     @Override
-    public List<User> getAllUsers(String usernameToExclude) {
-        return userRepository.getAllUsers(usernameToExclude);
-    }
+    public List<User> getAllOpponents(String usernameToExclude) { return userRepository.getAllOpponents(usernameToExclude); }
+
+    @Override
+    public List<User> getAllUsers() { return userRepository.getAllUsers(); }
 
 
     @Override
@@ -78,7 +78,15 @@ public class UserService implements IUserService {
 
     @Override
     public List<User> getLeaderboard() {
-        return null;
+        List<User> allUsers = userRepository.getAllUsers();
+        Collections.sort(allUsers, new Comparator<User>() {
+            @Override
+            public int compare(User t1, User t2) {
+                return (int)t1.getRank().compareTo((int)t2.getRank());
+            }
+        });
+        
+        return allUsers;
     }
 
 }

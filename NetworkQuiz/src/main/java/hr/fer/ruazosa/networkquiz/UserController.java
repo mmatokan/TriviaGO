@@ -89,7 +89,7 @@ public class UserController {
 
     @GetMapping("/usernames")
     public List<User> getAllUsernames(@RequestParam(name="usernameToExclude") String usernameToExclude){
-       return userService.getAllUsers(usernameToExclude);
+       return userService.getAllOpponents(usernameToExclude);
     }
 
     @GetMapping("/token/{username}")
