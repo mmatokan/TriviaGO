@@ -33,7 +33,7 @@ class ChoosePlayersActivity : AppCompatActivity() {
         // Initializing usernames
         opponents = mutableListOf<SelectableUser>()
         user = intent.getSerializableExtra("user") as? User
-        var category = intent.getSerializableExtra("category") as? Category
+        var category = intent.getSerializableExtra("category") as? Int
         Users().execute(user?.username)
 
         returnButton.setOnClickListener{
@@ -121,11 +121,11 @@ class ChoosePlayersActivity : AppCompatActivity() {
         }
     }
 
-    private inner class Questions:AsyncTask<Category,Void , CatQuestions?>(){
+    private inner class Questions:AsyncTask<Int ,Void , CatQuestions?>(){
 
-        override fun doInBackground(vararg category: Category): CatQuestions? {
+        override fun doInBackground(vararg category: Int?): CatQuestions? {
             val rest = RestFactory.instance
-            return rest.getQuestions(category[0].id)
+            return category[0]?.let { rest.getQuestions(it) }
         }
 
         override fun onPostExecute(questions: CatQuestions?) {
@@ -133,7 +133,6 @@ class ChoosePlayersActivity : AppCompatActivity() {
             var players = getSelectedPlayers()
             var newGame = Game(questions!!.clues, players, players.size - 1)
             CreateGame().execute(newGame)
-
         }
     }
 

@@ -33,8 +33,6 @@ class MyProfileActivity : AppCompatActivity() {
                 if(message != null){
                     showNotification(message)
                 }
-
-
             }
         }*/
 
