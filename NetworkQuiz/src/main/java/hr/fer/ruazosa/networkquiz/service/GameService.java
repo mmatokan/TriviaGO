@@ -1,9 +1,6 @@
 package hr.fer.ruazosa.networkquiz.service;
 
-import com.google.firebase.messaging.BatchResponse;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingException;
-import com.google.firebase.messaging.MulticastMessage;
+import com.google.firebase.messaging.*;
 import hr.fer.ruazosa.networkquiz.repository.GameRepository;
 import hr.fer.ruazosa.networkquiz.model.Game;
 import hr.fer.ruazosa.networkquiz.model.Question;
@@ -16,6 +13,7 @@ import sun.security.ssl.Debug;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class GameService implements IGameService {
@@ -28,15 +26,14 @@ public class GameService implements IGameService {
         return 0;
     }
 
-    //TODO game id samo posalji
     @Override
-    public int notifyGameStart(List<User> players, int gameId) {
-        //TODO add question answer and id
+    public int notifyGameStart(List<User> players, Long gameId) {
         List<String> tokens = new ArrayList<String>(){};
         for(User player : players){
             tokens.add(player.getToken());
         }
         MulticastMessage message = MulticastMessage.builder()
+                .putData("action", "begin")
                 .putData("game_id", String.valueOf(gameId))
                 .addAllTokens(tokens)
                 .build();
@@ -67,7 +64,7 @@ public class GameService implements IGameService {
         Integer successCount = gameRepository.updatePending(gameId);
         Game newGame = gameRepository.getGame(gameId);
         if(newGame.getPending() == 0){
-            //notifyGameStart(newGame.getPlayers(), gameId);
+            notifyGameStart(newGame.getPlayers(), gameId);
         }
         return successCount;
     }
@@ -79,7 +76,7 @@ public class GameService implements IGameService {
 
     @Override
     @Transactional
-    public Game createNewGame(Game game, String username) {
+    public boolean createNewGame(Game game, String username) {
         for(Question question : game.getQuestions()){
             question.setGame(game);
         }
@@ -96,15 +93,15 @@ public class GameService implements IGameService {
             Debug.println("ERROR", notSent + " tokens not sent!");
         }
         else Debug.println("OK", "all notifications sent");
-        return newGame;
+        return true;
     }
 
     @Override
     public int sendGameInvitations(List<String> token, String username, Long gameId){
         MulticastMessage message = MulticastMessage.builder()
-                //.setNotification()
                 .putData("message", username + " invited you to join a game")
                 .putData("game_id", String.valueOf(gameId))
+                .putData("action", "join")
                 .addAllTokens(token)
                 .build();
         try{

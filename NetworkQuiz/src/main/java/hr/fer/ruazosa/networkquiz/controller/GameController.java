@@ -16,7 +16,7 @@ public class GameController {
     private IGameService gameService;
 
     @PostMapping("/createNewGame/{user}")
-    public Game createNewGame(@RequestBody Game game, @PathVariable("user") String username) {
+    public boolean createNewGame(@RequestBody Game game, @PathVariable("user") String username) {
         return gameService.createNewGame(game, username);
     }
 
