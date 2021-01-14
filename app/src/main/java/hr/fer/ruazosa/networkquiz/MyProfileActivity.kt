@@ -35,8 +35,11 @@ class MyProfileActivity : AppCompatActivity() {
             //finish()
         }
         leaderboardButton.setOnClickListener {
+            val intent = Intent(this, LeaderboardActivity::class.java)
+            intent.putExtra("user", user)
+            startActivity(intent)
             val toastMessage =
-                Toast.makeText(applicationContext, "Not yet implemented!", Toast.LENGTH_LONG)
+                Toast.makeText(applicationContext, "Lets cry", Toast.LENGTH_LONG)
             toastMessage.show()
         }
 
