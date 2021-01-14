@@ -1,11 +1,10 @@
-package hr.fer.ruazosa.networkquiz;
-
+package hr.fer.ruazosa.networkquiz.model;
 import javax.persistence.*;
 
 @Entity
 @Table(name="question")
 public class Question {
-    //TO DO: dodaj sve sta salje json
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "question_id")
@@ -19,9 +18,11 @@ public class Question {
     @Column(name = "question_answer")
     private String answer;
 
+    /*
     @Column(name = "my_game_id")
     private Long my_game_id;
 
+     */
 
     @ManyToOne
     @JoinColumn(name = "game_id")
@@ -43,8 +44,8 @@ public class Question {
         this.game = game;
     }
 
-    public void setMy_game_id(Long id){ this.my_game_id = id;}
-    public Long getMy_game_id(){ return this.my_game_id;}
+    //public void setMy_game_id(Long id){ this.my_game_id = id;}
+    //public Long getMy_game_id(){ return this.my_game_id;}
 
     public Long getId(){
         return this.id;

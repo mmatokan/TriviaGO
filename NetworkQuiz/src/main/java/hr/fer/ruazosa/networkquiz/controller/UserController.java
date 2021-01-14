@@ -1,6 +1,7 @@
-package hr.fer.ruazosa.networkquiz;
+package hr.fer.ruazosa.networkquiz.controller;
 
-import net.bytebuddy.asm.Advice;
+import hr.fer.ruazosa.networkquiz.service.IUserService;
+import hr.fer.ruazosa.networkquiz.model.User;
 import net.bytebuddy.implementation.bind.annotation.FieldValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

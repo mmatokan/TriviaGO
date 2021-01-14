@@ -1,6 +1,6 @@
-package hr.fer.ruazosa.networkquiz;
+package hr.fer.ruazosa.networkquiz.model;
 
-import net.bytebuddy.implementation.bind.annotation.Default;
+import hr.fer.ruazosa.networkquiz.model.Game;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -46,7 +46,7 @@ public class User {
     @Column(name = "rank")
     private int rank = 0;
 
-    @ManyToMany(mappedBy = "players")
+    @ManyToMany(mappedBy = "players", cascade = CascadeType.REMOVE)
     private List<Game> games = new ArrayList<>();
 
     public void setId(Long id) {

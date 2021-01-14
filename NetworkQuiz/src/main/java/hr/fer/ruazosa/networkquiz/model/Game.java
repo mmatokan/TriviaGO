@@ -1,4 +1,4 @@
-package hr.fer.ruazosa.networkquiz;
+package hr.fer.ruazosa.networkquiz.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -16,7 +16,7 @@ public class Game {
     @Size(min=5, message = "Game must have at least 5 questions")
     @OneToMany(
             mappedBy = "game",
-            cascade = CascadeType.MERGE,
+            cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     private List<Question> questions = new ArrayList<>();

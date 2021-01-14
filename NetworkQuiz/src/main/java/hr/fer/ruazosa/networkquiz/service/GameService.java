@@ -1,9 +1,14 @@
-package hr.fer.ruazosa.networkquiz;
+package hr.fer.ruazosa.networkquiz.service;
 
 import com.google.firebase.messaging.BatchResponse;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.MulticastMessage;
+import hr.fer.ruazosa.networkquiz.repository.GameRepository;
+import hr.fer.ruazosa.networkquiz.repository.QuestionRepository;
+import hr.fer.ruazosa.networkquiz.model.Game;
+import hr.fer.ruazosa.networkquiz.model.Question;
+import hr.fer.ruazosa.networkquiz.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -19,7 +24,6 @@ public class GameService implements IGameService {
     private GameRepository gameRepository;
     @Autowired
     private QuestionRepository questionRepository;
-
 
     @Override
     public int calculateScore(List<Question> questions, List<String> answers, int timeRemaining) {
@@ -71,12 +75,6 @@ public class GameService implements IGameService {
     @Transactional
     public Game createNewGame(Game game) {
         Game newGame = gameRepository.save(game);
-        for(Question question: newGame.getQuestions()){
-            //question.setGame(newGame);
-            //ovo je privremeno rjesenje dok ne skuzim kako povezati OneToMany
-            question.setMy_game_id(newGame.getGameId());
-            questionRepository.save(question);
-        }
         return newGame;
     }
 

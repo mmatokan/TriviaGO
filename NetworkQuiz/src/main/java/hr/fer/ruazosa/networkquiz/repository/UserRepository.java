@@ -1,5 +1,6 @@
-package hr.fer.ruazosa.networkquiz;
+package hr.fer.ruazosa.networkquiz.repository;
 
+import hr.fer.ruazosa.networkquiz.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

@@ -1,4 +1,8 @@
-package hr.fer.ruazosa.networkquiz;
+package hr.fer.ruazosa.networkquiz.service;
+
+import hr.fer.ruazosa.networkquiz.model.Game;
+import hr.fer.ruazosa.networkquiz.model.Question;
+import hr.fer.ruazosa.networkquiz.model.User;
 
 import java.util.List;
 

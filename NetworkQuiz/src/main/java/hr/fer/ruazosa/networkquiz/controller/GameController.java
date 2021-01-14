@@ -1,5 +1,8 @@
-package hr.fer.ruazosa.networkquiz;
+package hr.fer.ruazosa.networkquiz.controller;
 
+import hr.fer.ruazosa.networkquiz.service.IGameService;
+import hr.fer.ruazosa.networkquiz.model.Game;
+import hr.fer.ruazosa.networkquiz.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

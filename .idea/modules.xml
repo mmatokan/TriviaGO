@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Documents.NetworkQuizBackend.iml" filepath="$PROJECT_DIR$/.idea/modules/Documents.NetworkQuizBackend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/NetworkQuiz.iml" filepath="$PROJECT_DIR$/.idea/modules/NetworkQuiz.iml" />
       <module fileurl="file://$PROJECT_DIR$/NetworkQuiz/NetworkQuizBackend.iml" filepath="$PROJECT_DIR$/NetworkQuiz/NetworkQuizBackend.iml" />
     </modules>
   </component>
