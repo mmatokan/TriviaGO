@@ -12,6 +12,7 @@ import hr.fer.ruazosa.networkquiz.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
+import sun.security.ssl.Debug;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -72,10 +73,39 @@ public class GameService implements IGameService {
     }
 
     @Override
-    @Transactional
-    public Game createNewGame(Game game) {
+    public Game createNewGame(Game game, String username) {
         Game newGame = gameRepository.save(game);
+        List<String> playerTokens = new ArrayList<>();
+        for(User player : newGame.getPlayers()){
+            if(!player.getUsername().equals(username)){
+                playerTokens.add(player.getToken());
+            }
+        }
+        int sent = sendGameInvitations(playerTokens, username, newGame.getGameId());
+        if(sent != playerTokens.size()){
+            int notSent = playerTokens.size() - sent;
+            Debug.println("ERROR", notSent + " tokens not sent!");
+        }
+        else Debug.println("OK", "all notifications sent");
         return newGame;
+    }
+
+    @Override
+    public int sendGameInvitations(List<String> token, String username, Long gameId){
+        MulticastMessage message = MulticastMessage.builder()
+                //.setNotification()
+                .putData("message", username + " invited you to join a game")
+                .putData("game_id", String.valueOf(gameId))
+                .addAllTokens(token)
+                .build();
+        try{
+            BatchResponse response = FirebaseMessaging.getInstance().sendMulticast(message);
+            return response.getSuccessCount();
+        }
+        catch (FirebaseMessagingException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     @Override

@@ -13,7 +13,6 @@ public interface IUserService {
     List<User> getAllOpponents(String usernameToExclude);
     List<User> getAllUsers();
     String setNewToken(String username, String token);
-    int sendGameInvitations(List<String> token, String username, int gameId);
     List<User> getLeaderboard();
 
 }

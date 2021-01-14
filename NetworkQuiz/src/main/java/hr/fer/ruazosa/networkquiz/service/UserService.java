@@ -62,24 +62,6 @@ public class UserService implements IUserService {
     public String getUserToken(String username){ return userRepository.getUserToken(username);}
 
     @Override
-    public int sendGameInvitations(List<String> token, String username, int gameId){
-        MulticastMessage message = MulticastMessage.builder()
-                //.setNotification()
-                .putData("message", username + " invited you to join a game")
-                .putData("game_id", String.valueOf(gameId))
-                .addAllTokens(token)
-                .build();
-        try{
-            BatchResponse response = FirebaseMessaging.getInstance().sendMulticast(message);
-            return response.getSuccessCount();
-        }
-        catch (FirebaseMessagingException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    @Override
     public List<User> getLeaderboard() {
         List<User> allUsers = userRepository.getAllUsers();
         

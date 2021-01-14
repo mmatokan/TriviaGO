@@ -103,9 +103,4 @@ public class UserController {
         return userService.setNewToken(username, token);
     }
 
-    @GetMapping("/sendGameInvitation")
-    public int sendGameInvitation(List<String> token, String username, int gameId){
-        return userService.sendGameInvitations(token, username, gameId);
-    }
-
 }

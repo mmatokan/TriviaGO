@@ -14,9 +14,9 @@ public class GameController {
     @Autowired
     private IGameService gameService;
 
-    @PostMapping("/createNewGame")
-    public Game createNewGame(@RequestBody Game game) {
-        return gameService.createNewGame(game);
+    @PostMapping("/createNewGame/{user}")
+    public Game createNewGame(@RequestBody Game game, @PathVariable("user") String username) {
+        return gameService.createNewGame(game, username);
     }
 
     @PatchMapping("/joinGame/{id}")
@@ -26,6 +26,11 @@ public class GameController {
             players.remove(user);
         }
         return gameService.joinGame(gameId, players);
+    }
+
+    @GetMapping("/sendGameInvitation")
+    public int sendGameInvitation(List<String> token, String username, Long gameId){
+        return gameService.sendGameInvitations(token, username, gameId);
     }
 
     @GetMapping("/getPlayers/{id}")

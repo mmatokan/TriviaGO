@@ -13,6 +13,7 @@ public interface IGameService {
     Game startGame(int gameId);
     void sendWinner(User user, int score);
     Game joinGame(int gameId, List<User> players);
-    Game createNewGame(Game game);
+    Game createNewGame(Game game, String username);
+    int sendGameInvitations(List<String> token, String username, Long gameId);
     List<User> getPlayers(int gameId);
 }
