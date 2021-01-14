@@ -1,6 +1,5 @@
 package hr.fer.ruazosa.networkquiz.net
 
-import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.NotificationManager.IMPORTANCE_HIGH
@@ -8,12 +7,10 @@ import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_ONE_SHOT
 import android.content.Context
 import android.content.Intent
-import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import hr.fer.ruazosa.networkquiz.JoinGameActivity
@@ -22,17 +19,14 @@ import kotlin.random.Random
 
 class TriviagoFirebaseMessagingService : FirebaseMessagingService() {
 
-    /**
-     * Called when message is received.
-     *
-     * @param remoteMessage Object representing the message received from Firebase Cloud Messaging.
-     */
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         // Check if message contains a data payload.
         if (remoteMessage.data.isNotEmpty()) {
             Log.d(TAG, "Message data payload: ${remoteMessage.data}")
             val message = remoteMessage.data["message"]
             val gameId = remoteMessage.data["game_id"]
+
+            sendNotification(message!!, gameId!!)
         }
 
         //Check if message contains a notification payload

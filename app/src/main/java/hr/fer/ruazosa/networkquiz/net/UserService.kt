@@ -25,8 +25,8 @@ interface  UserService {
     @FormUrlEncoded
     fun setNewToken(@Path("id") username: String, @Field("token") newToken: String): String?
 
-    @POST("/createNewGame")
-    fun createNewGame(@Body game: Game): Game?
+    @POST("/createNewGame/{user}")
+    fun createNewGame(@Body game: Game, @Path("user") username: String): Game?
 
     @PATCH("/joinGame/{id}")
     fun joinGameResponse(@Path("id") gameId: Int, @Query("response") response: Boolean, @Body player: User): Game?

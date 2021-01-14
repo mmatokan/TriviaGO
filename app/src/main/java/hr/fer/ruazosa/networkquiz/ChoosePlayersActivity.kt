@@ -145,7 +145,6 @@ class ChoosePlayersActivity : AppCompatActivity() {
                 var saveQuestion = Question(question.answer, question.question)
                 questionForm.add(saveQuestion)
             }
-            Log.d("pitanja", questionForm[0].question)
             var players = getSelectedPlayers()
             var newGame = Game(questionForm, players, players.size - 1)
             CreateGame().execute(newGame)
@@ -156,7 +155,7 @@ class ChoosePlayersActivity : AppCompatActivity() {
     private inner class CreateGame:AsyncTask<Game,Void, Game?>(){
         override fun doInBackground(vararg game: Game?): Game? {
             val rest = RestFactory.instance
-            return game[0]?.let { rest.createNewGame(it) }
+            return game[0]?.let { rest.createNewGame(it, user!!.username) }
         }
 
         override fun onPostExecute(result: Game?) {
