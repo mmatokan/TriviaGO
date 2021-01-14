@@ -36,54 +36,36 @@ class CategoryActivity : AppCompatActivity() {
         }
         //ovo povezati s pitanjima
         btnCategory1.setOnClickListener {
-            val toastMessage =
-                Toast.makeText(applicationContext, "Chosen category is " + category1.id, Toast.LENGTH_LONG)
-            toastMessage.show()
             val intent = Intent(this, ChoosePlayersActivity::class.java) //ovisi u kojem redosljedu ide; kategorija -> igraci -> pitanja?
             intent.putExtra("user", user)
             intent.putExtra("category", category1.id)
             startActivity(intent)
         }
         btnCategory2.setOnClickListener {
-            val toastMessage =
-                Toast.makeText(applicationContext, "Chosen category is " + category2.id, Toast.LENGTH_LONG)
-            toastMessage.show()
             val intent = Intent(this, ChoosePlayersActivity::class.java) //ovisi u kojem redosljedu ide; kategorija -> igraci -> pitanja?
             intent.putExtra("user", user)
             intent.putExtra("category", category2.id)
             startActivity(intent)
         }
         btnCategory3.setOnClickListener {
-            val toastMessage =
-                Toast.makeText(applicationContext, "Chosen category is " + category3.id, Toast.LENGTH_LONG)
-            toastMessage.show()
             val intent = Intent(this, ChoosePlayersActivity::class.java) //ovisi u kojem redosljedu ide; kategorija -> igraci -> pitanja?
             intent.putExtra("user", user)
             intent.putExtra("category", category3.id)
             startActivity(intent)
         }
         btnCategory4.setOnClickListener {
-            val toastMessage =
-                Toast.makeText(applicationContext, "Chosen category is " + category4.id, Toast.LENGTH_LONG)
-            toastMessage.show()
             val intent = Intent(this, ChoosePlayersActivity::class.java) //ovisi u kojem redosljedu ide; kategorija -> igraci -> pitanja?
             intent.putExtra("user", user)
             intent.putExtra("category", category4.id)
             startActivity(intent)
         }
         btnCategory5.setOnClickListener {
-            val toastMessage =
-                Toast.makeText(applicationContext, "Chosen category is " + category5.id, Toast.LENGTH_LONG)
-            toastMessage.show()
             val intent = Intent(this, ChoosePlayersActivity::class.java) //ovisi u kojem redosljedu ide; kategorija -> igraci -> pitanja?
             intent.putExtra("user", user)
             intent.putExtra("category", category5.id)
             startActivity(intent)
         }
         btnCategory6.setOnClickListener {
-            val toastMessage =
-                Toast.makeText(applicationContext, "Chosen category is " + category6.id, Toast.LENGTH_LONG)
-            toastMessage.show()
             val intent = Intent(this, ChoosePlayersActivity::class.java) //ovisi u kojem redosljedu ide; kategorija -> igraci -> pitanja?
             intent.putExtra("user", user)
             intent.putExtra("category", category6.id)

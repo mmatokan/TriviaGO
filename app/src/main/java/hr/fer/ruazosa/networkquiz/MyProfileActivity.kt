@@ -42,28 +42,6 @@ class MyProfileActivity : AppCompatActivity() {
 
     }
 
-    private fun showNotification(message: String){
-        //Inflate the dialog with custom view
-        val mDialogView = LayoutInflater.from(this@MyProfileActivity).inflate(R.layout.join_game_dialog, null)
-        mDialogView.joinGameTextView.text = message
-        //AlertDialogBuilder
-        val mBuilder = AlertDialog.Builder(this@MyProfileActivity)
-            .setView(mDialogView)
-            .setTitle("Join game")
-        //show dialog
-        val  mAlertDialog = mBuilder.show()
-        //login button click of custom layout
-        mDialogView.joinGameButton.setOnClickListener {
-            //dismiss dialog
-            mAlertDialog.dismiss()
-        }
-        //cancel button click of custom layout
-        mDialogView.declineGameButton.setOnClickListener {
-            //dismiss dialog
-            mAlertDialog.dismiss()
-        }
-    }
-
     private inner class UserRank: AsyncTask<String, Void, User?>() {
 
         override fun doInBackground(vararg user: String): User? {
@@ -77,10 +55,6 @@ class MyProfileActivity : AppCompatActivity() {
             gamesNumberView?.text = user?.gamesPlayed.toString()
             accuracyPercentageView?.text = user?.accuracy.toString()
             pointsNumberView?.text = user?.score.toString()
-
-            val toastMessage =
-                Toast.makeText(applicationContext, user!!.id.toString(), Toast.LENGTH_LONG)
-            toastMessage.show()
         }
     }
 

@@ -1,11 +1,15 @@
 package hr.fer.ruazosa.networkquiz
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import hr.fer.ruazosa.networkquiz.net.RestFactory
 import kotlinx.android.synthetic.main.join_game_dialog.*
 
@@ -13,6 +17,8 @@ class JoinGameActivity : AppCompatActivity() {
 
     var response: Boolean = true
     var userId: Long? = null
+
+    lateinit var receiver: BroadcastReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +43,23 @@ class JoinGameActivity : AppCompatActivity() {
             //intent.putExtra("user", user)
             startActivity(intent)
 
+        }
+
+        receiver = object : BroadcastReceiver(){
+            override fun onReceive(context: Context?, intent: Intent?) {
+                val action = intent?.action
+
+                Log.i("Receiver", "Broadcast received: $action")
+
+                if(action.equals("begin")) {
+                    val gameId = intent?.getStringExtra("game_id")
+                    //TODO get questions and start game
+                    val toast = Toast.makeText(applicationContext,"game starting", Toast.LENGTH_LONG)
+                    toast.show()
+                    val intent = Intent(this@JoinGameActivity, MyProfileActivity::class.java)
+                    startActivity(intent)
+                }
+            }
         }
 
     }
@@ -64,9 +87,25 @@ class JoinGameActivity : AppCompatActivity() {
         override fun onPostExecute(result: Boolean?) {
             if (result != null){
                 if(response){
-                    //TODO("not implemented) go to wait for game start
+                    val intent = Intent(this@JoinGameActivity, WaitForGameStart::class.java)
+                    startActivity(intent)
                 }
             }
         }
+    }
+
+    public override fun onStart() {
+        super.onStart()
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            receiver,
+            IntentFilter("begin")
+        )
+    }
+
+
+    public override fun onStop() {
+        super.onStop()
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
+
     }
 }

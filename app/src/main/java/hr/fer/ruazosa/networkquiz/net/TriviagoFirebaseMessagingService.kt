@@ -11,6 +11,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import hr.fer.ruazosa.networkquiz.JoinGameActivity
@@ -23,10 +24,20 @@ class TriviagoFirebaseMessagingService : FirebaseMessagingService() {
         // Check if message contains a data payload.
         if (remoteMessage.data.isNotEmpty()) {
             Log.d(TAG, "Message data payload: ${remoteMessage.data}")
-            val message = remoteMessage.data["message"]
-            val gameId = remoteMessage.data["game_id"]
+            val action = remoteMessage.data["action"]
+            if(action.equals("join")){
+                val message = remoteMessage.data["message"]
+                val gameId = remoteMessage.data["game_id"]
 
-            sendNotification(message!!, gameId!!)
+                sendNotification(message!!, gameId!!)
+            }
+            else if(action.equals("begin")){
+                val gameId = remoteMessage.data["game_id"]
+                val intent = Intent("begin")
+                intent.putExtra("game_id", gameId)
+                LocalBroadcastManager.getInstance(baseContext)
+                    .sendBroadcast(intent)
+            }
         }
     }
 
@@ -45,7 +56,7 @@ class TriviagoFirebaseMessagingService : FirebaseMessagingService() {
 
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, FLAG_ONE_SHOT)
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.image_logo)
+            .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle("New game available")
             .setContentText(message)
             .setAutoCancel(true)

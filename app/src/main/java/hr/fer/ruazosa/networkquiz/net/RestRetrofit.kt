@@ -51,7 +51,7 @@ class RestRetrofit : RestInterface{
         return questionService.getQuestions(categoryId)
     }
 
-    override fun createNewGame(game: Game, username: String): Game? {
+    override fun createNewGame(game: Game, username: String): Boolean? {
         return service.createNewGame(game, username)
     }
 

@@ -73,13 +73,14 @@ class ChoosePlayersActivity : AppCompatActivity() {
         })
 
         startButton?.setOnClickListener {
-
-            Questions().execute(category)
-
-            // TODO: start game intent
-            val text = "Not yet implemented! "
-            val toast = Toast.makeText(applicationContext,text,Toast.LENGTH_LONG)
-            toast.show()
+            if(getSelectedPlayers().size > 1){
+                Questions().execute(category)
+            }
+            else{
+                val text = "Select opponents!"
+                val toast = Toast.makeText(applicationContext,text,Toast.LENGTH_LONG)
+                toast.show()
+            }
         }
 
 
@@ -152,14 +153,17 @@ class ChoosePlayersActivity : AppCompatActivity() {
         }
     }
 
-    private inner class CreateGame:AsyncTask<Game,Void, Game?>(){
-        override fun doInBackground(vararg game: Game?): Game? {
+    private inner class CreateGame:AsyncTask<Game,Void, Boolean?>(){
+        override fun doInBackground(vararg game: Game?): Boolean? {
             val rest = RestFactory.instance
             return game[0]?.let { rest.createNewGame(it, user!!.username) }
         }
 
-        override fun onPostExecute(result: Game?) {
-            //TODO wait for game to start
+        override fun onPostExecute(result: Boolean?){
+            if(result != null){
+                val intent = Intent(this@ChoosePlayersActivity, WaitForGameStart::class.java)
+                startActivity(intent)
+            }
         }
 
     }

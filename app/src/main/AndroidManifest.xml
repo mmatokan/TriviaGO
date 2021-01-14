@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".JoinGameActivity"></activity>
+        <activity android:name=".WaitForGameStart"></activity>
+        <activity android:name=".JoinGameActivity" />
         <activity android:name=".CategoryActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".MyProfileActivity" />
@@ -29,12 +30,12 @@
 
         <service
             android:name=".net.TriviagoFirebaseMessagingService"
-            android:permission="com.google.android.c2dm.permission.SEND"
             android:directBootAware="true"
-            android:exported="false">
+            android:exported="false"
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
-                <action android:name="com.google.android.c2dm.permission.RECIEVE"/>
+                <action android:name="com.google.android.c2dm.permission.RECIEVE" />
             </intent-filter>
         </service>
         <!--
