@@ -103,4 +103,9 @@ public class UserController {
         return userService.setNewToken(username, token);
     }
 
+    @GetMapping("/users")
+    public List<User> getLeaderboard(){
+        return userService.getLeaderboard();
+    }
+
 }

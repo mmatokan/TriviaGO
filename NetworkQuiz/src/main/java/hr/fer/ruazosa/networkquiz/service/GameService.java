@@ -8,7 +8,7 @@ import hr.fer.ruazosa.networkquiz.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
-import sun.security.ssl.Debug;
+//import sun.security.ssl.Debug;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -90,9 +90,9 @@ public class GameService implements IGameService {
         int sent = sendGameInvitations(playerTokens, username, newGame.getGameId());
         if(sent != playerTokens.size()){
             int notSent = playerTokens.size() - sent;
-            Debug.println("ERROR", notSent + " tokens not sent!");
+            //Debug.println("ERROR", notSent + " tokens not sent!");
         }
-        else Debug.println("OK", "all notifications sent");
+        //else Debug.println("OK", "all notifications sent");
         return true;
     }
 
