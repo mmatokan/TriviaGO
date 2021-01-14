@@ -55,8 +55,8 @@ class RestRetrofit : RestInterface{
         return service.createNewGame(game, username)
     }
 
-    override fun joinGameResponse(gameId: Int, response: Boolean, player: User): Game? {
-        return service.joinGameResponse(gameId, response, player)
+    override fun joinGameResponse(gameId: Long, response: Boolean, userId: Long): Boolean? {
+        return service.joinGameResponse(gameId, response, userId)
     }
 
     override fun getLeaderboard(): MutableList<User>? {

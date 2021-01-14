@@ -28,11 +28,6 @@ class TriviagoFirebaseMessagingService : FirebaseMessagingService() {
 
             sendNotification(message!!, gameId!!)
         }
-
-        //Check if message contains a notification payload
-        if (remoteMessage.notification != null){
-
-        }
     }
 
     private fun sendNotification(message: String, gameId: String){
@@ -51,7 +46,7 @@ class TriviagoFirebaseMessagingService : FirebaseMessagingService() {
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, FLAG_ONE_SHOT)
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.image_logo)
-            .setContentTitle("You've been invited to join a game")
+            .setContentTitle("New game available")
             .setContentText(message)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)

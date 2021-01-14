@@ -29,7 +29,8 @@ interface  UserService {
     fun createNewGame(@Body game: Game, @Path("user") username: String): Game?
 
     @PATCH("/joinGame/{id}")
-    fun joinGameResponse(@Path("id") gameId: Int, @Query("response") response: Boolean, @Body player: User): Game?
+    @FormUrlEncoded
+    fun joinGameResponse(@Path("id") gameId: Long, @Field("response") response: Boolean, @Query("user_id") userId: Long): Boolean?
 
 
 }

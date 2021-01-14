@@ -1,37 +1,38 @@
 package hr.fer.ruazosa.networkquiz
 
+import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import hr.fer.ruazosa.networkquiz.entity.Game
-import hr.fer.ruazosa.networkquiz.entity.User
+import android.util.Log
 import hr.fer.ruazosa.networkquiz.net.RestFactory
 import kotlinx.android.synthetic.main.join_game_dialog.*
 
 class JoinGameActivity : AppCompatActivity() {
 
     var response: Boolean = true
-    var user: User? = null
+    var userId: Long? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join_game)
 
         var message = intent.getStringExtra("message")
-        var gameId = intent.getStringExtra("game_id").toInt()
-        user = intent.getSerializableExtra("user") as? User
+        var gameId = intent.getStringExtra("game_id")
+
+        userId = loadUserId()
 
         joinGameTextView.text = message
 
         joinGameButton.setOnClickListener {
             response = true
-            JoinGameResponse().execute(gameId)
+            JoinGameResponse().execute(gameId.toLong())
         }
 
         declineGameButton.setOnClickListener {
             response = false
-            JoinGameResponse().execute(gameId)
+            JoinGameResponse().execute(gameId.toLong())
             val intent = Intent(this, MyProfileActivity::class.java)
             //intent.putExtra("user", user)
             startActivity(intent)
@@ -40,14 +41,27 @@ class JoinGameActivity : AppCompatActivity() {
 
     }
 
-    private inner class JoinGameResponse: AsyncTask<Int, Void, Game?>(){
+    private fun loadUserId(): Long?{
+        val sharedPreferences = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getLong("USER_ID", 0)
+    }
 
-        override fun doInBackground(vararg id: Int?): Game? {
+    private inner class JoinGameResponse: AsyncTask<Long, Void, Boolean?>(){
+
+        override fun doInBackground(vararg id: Long?): Boolean? {
             val rest = RestFactory.instance
-            return rest.joinGameResponse(id[0]!!, response, user!!)
+            if(id[0] != null && response != null && userId != null){
+                return rest.joinGameResponse(id[0]!!, response, userId!!)
+            }
+            else {
+                Log.d("ID", id[0].toString())
+                Log.d("RESPONSE", response.toString())
+                Log.d("USER_ID", userId.toString())
+                return false
+            }
         }
 
-        override fun onPostExecute(result: Game?) {
+        override fun onPostExecute(result: Boolean?) {
             if (result != null){
                 if(response){
                     //TODO("not implemented) go to wait for game start

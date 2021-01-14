@@ -1,5 +1,6 @@
 package hr.fer.ruazosa.networkquiz
 
+import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
@@ -86,6 +87,9 @@ class SignUpActivity : AppCompatActivity() {
 
         override fun onPostExecute(user: User?) {
             if (user != null) {
+
+                saveUsername(user)
+
                 val intent = Intent(this@SignUpActivity, MyProfileActivity::class.java)
                 intent.putExtra("user", user)
                 startActivity(intent)
@@ -96,5 +100,15 @@ class SignUpActivity : AppCompatActivity() {
             }
 
         }
+    }
+
+    private fun saveUsername(user: User){
+        val sharedPreferences = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.apply{
+            putString("USERNAME", user.username)
+            putString("PASSWORD", user.password)
+            putLong("USER_ID", user.id.toLong())
+        }.apply()
     }
 }

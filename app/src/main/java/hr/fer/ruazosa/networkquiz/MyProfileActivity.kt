@@ -26,7 +26,7 @@ class MyProfileActivity : AppCompatActivity() {
 
         usernameTextView?.text = user?.username
 
-        UserRank().execute(user)
+        UserRank().execute(user?.username)
 
         startNewGameButton.setOnClickListener {
             val intent = Intent(this, CategoryActivity::class.java) //ovisi u kojem redosljedu ide; kategorija -> igraci -> pitanja?
@@ -64,11 +64,11 @@ class MyProfileActivity : AppCompatActivity() {
         }
     }
 
-    private inner class UserRank: AsyncTask<User, Void, User?>() {
+    private inner class UserRank: AsyncTask<String, Void, User?>() {
 
-        override fun doInBackground(vararg user: User): User? {
+        override fun doInBackground(vararg user: String): User? {
             val rest = RestFactory.instance
-            return rest.getUserRank(user[0].username)
+            return rest.getUserRank(user[0])
 
         }
 

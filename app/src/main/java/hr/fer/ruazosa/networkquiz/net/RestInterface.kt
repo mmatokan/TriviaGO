@@ -13,6 +13,6 @@ interface RestInterface {
     fun setNewToken(username: String, token: String): String?
     fun getQuestions(categoryId: Int): CatQuestions?
     fun createNewGame(game: Game, username: String): Game?
-    fun joinGameResponse(gameId: Int, response: Boolean, player: User): Game?
+    fun joinGameResponse(gameId: Long, response: Boolean, userId: Long): Boolean?
     fun getLeaderboard():MutableList<User>?
 }
