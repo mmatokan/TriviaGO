@@ -142,9 +142,10 @@ class ChoosePlayersActivity : AppCompatActivity() {
             for(question in questions?.clues!!){
                 if(i > 4) break
                 i++
-                var saveQuestion = Question(question.id, question.answer, question.question)
+                var saveQuestion = Question(question.answer, question.question)
                 questionForm.add(saveQuestion)
             }
+            Log.d("pitanja", questionForm[0].question)
             var players = getSelectedPlayers()
             var newGame = Game(questionForm, players, players.size - 1)
             CreateGame().execute(newGame)

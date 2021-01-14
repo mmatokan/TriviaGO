@@ -1,23 +1,27 @@
 package hr.fer.ruazosa.networkquiz.net
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.NotificationManager.IMPORTANCE_HIGH
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_ONE_SHOT
 import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import hr.fer.ruazosa.networkquiz.JoinGameActivity
 import hr.fer.ruazosa.networkquiz.R
+import kotlin.random.Random
 
 class TriviagoFirebaseMessagingService : FirebaseMessagingService() {
 
-    //Ovo je samo iskopirano od onoga sto je mentor poslao
     /**
      * Called when message is received.
      *
@@ -29,55 +33,51 @@ class TriviagoFirebaseMessagingService : FirebaseMessagingService() {
             Log.d(TAG, "Message data payload: ${remoteMessage.data}")
             val message = remoteMessage.data["message"]
             val gameId = remoteMessage.data["game_id"]
-            if (message != null && gameId != null) {
-                sendNotification(message, gameId.toInt())
-            }
-            //pozvati instancu gdje treba gameId.toInt()
+        }
+
+        //Check if message contains a notification payload
+        if (remoteMessage.notification != null){
+
         }
     }
 
-    private fun passMessageToActivity(message: String){
-        val intent = Intent().apply {
-            action = INTENT_ACTION_SEND_MESSAGE
-            putExtra("message", message)
-        }
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
-    }
-
-    private fun sendNotification(messageBody: String, gameId: Int) {
+    private fun sendNotification(message: String, gameId: String){
         val intent = Intent(this, JoinGameActivity::class.java)
-        intent.putExtra("message", messageBody)
-        intent.putExtra("game_id", gameId.toString())
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-            PendingIntent.FLAG_ONE_SHOT)
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationID = Random.nextInt()
 
-        val channelId = getString(R.string.default_notification_channel_id)
-        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            createNotificationChannel(notificationManager)
+        }
+
+        intent.putExtra("message", message)
+        intent.putExtra("game_id", gameId)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, FLAG_ONE_SHOT)
+        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.image_logo)
             .setContentTitle("You've been invited to join a game")
-            .setContentText(messageBody)
+            .setContentText(message)
             .setAutoCancel(true)
-            .setSound(defaultSoundUri)
             .setContentIntent(pendingIntent)
+            .build()
 
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        // Since android Oreo notification channel is needed.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(channelId,
-                "Channel human readable title",
-                NotificationManager.IMPORTANCE_DEFAULT)
-            notificationManager.createNotificationChannel(channel)
-        }
-
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build())
+        notificationManager.notify(notificationID, notification)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createNotificationChannel(notificationManager: NotificationManager){
+        val channelName = "channelName"
+        val channel = NotificationChannel(CHANNEL_ID, channelName, IMPORTANCE_HIGH).apply {
+            description = "Notify new game available"
+            enableLights(true)
+        }
+        notificationManager.createNotificationChannel(channel)
+    }
 
     companion object {
         private const val TAG = "MyFirebaseMsgService"
-        private const val INTENT_ACTION_SEND_MESSAGE = "INTENT_ACTION_SEND_MESSAGE"
+        private const val CHANNEL_ID = "join_game"
     }
 }

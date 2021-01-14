@@ -58,4 +58,8 @@ class RestRetrofit : RestInterface{
     override fun joinGameResponse(gameId: Int, response: Boolean, player: User): Game? {
         return service.joinGameResponse(gameId, response, player)
     }
+
+    override fun getLeaderboard(): MutableList<User>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

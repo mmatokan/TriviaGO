@@ -14,4 +14,5 @@ interface RestInterface {
     fun getQuestions(categoryId: Int): CatQuestions?
     fun createNewGame(game: Game): Game?
     fun joinGameResponse(gameId: Int, response: Boolean, player: User): Game?
+    fun getLeaderboard():MutableList<User>?
 }

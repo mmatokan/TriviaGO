@@ -25,13 +25,11 @@ interface  UserService {
     @FormUrlEncoded
     fun setNewToken(@Path("id") username: String, @Field("token") newToken: String): String?
 
-    @GET("questions/{id}")
-    fun getQuestions(@Path("id") categoryId: Int): CatQuestions?
-
     @POST("/createNewGame")
     fun createNewGame(@Body game: Game): Game?
 
     @PATCH("/joinGame/{id}")
     fun joinGameResponse(@Path("id") gameId: Int, @Query("response") response: Boolean, @Body player: User): Game?
+
 
 }

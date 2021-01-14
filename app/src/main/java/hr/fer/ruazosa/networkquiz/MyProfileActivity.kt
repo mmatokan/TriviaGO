@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import hr.fer.ruazosa.networkquiz.entity.User
 import hr.fer.ruazosa.networkquiz.net.RestFactory
 import kotlinx.android.synthetic.main.activity_my_profile.*
@@ -24,17 +26,7 @@ class MyProfileActivity : AppCompatActivity() {
 
         usernameTextView?.text = user?.username
 
-
         UserRank().execute(user)
-        /*
-        reciever = object : BroadcastReceiver(){
-            override fun onReceive(context: Context?, intent: Intent) {
-                val message = intent.getStringExtra("message")
-                if(message != null){
-                    showNotification(message)
-                }
-            }
-        }*/
 
         startNewGameButton.setOnClickListener {
             val intent = Intent(this, CategoryActivity::class.java) //ovisi u kojem redosljedu ide; kategorija -> igraci -> pitanja?
