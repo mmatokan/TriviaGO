@@ -5,7 +5,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.MulticastMessage;
 import hr.fer.ruazosa.networkquiz.repository.GameRepository;
-import hr.fer.ruazosa.networkquiz.repository.QuestionRepository;
 import hr.fer.ruazosa.networkquiz.model.Game;
 import hr.fer.ruazosa.networkquiz.model.Question;
 import hr.fer.ruazosa.networkquiz.model.User;
@@ -23,8 +22,6 @@ public class GameService implements IGameService {
 
     @Autowired
     private GameRepository gameRepository;
-    @Autowired
-    private QuestionRepository questionRepository;
 
     @Override
     public int calculateScore(List<Question> questions, List<String> answers, int timeRemaining) {
@@ -33,13 +30,14 @@ public class GameService implements IGameService {
 
     //TODO game id samo posalji
     @Override
-    public int notifyGameStart(List<User> players, List<Question> questions) {
+    public int notifyGameStart(List<User> players, int gameId) {
         //TODO add question answer and id
         List<String> tokens = new ArrayList<String>(){};
         for(User player : players){
             tokens.add(player.getToken());
         }
         MulticastMessage message = MulticastMessage.builder()
+                .putData("game_id", String.valueOf(gameId))
                 .addAllTokens(tokens)
                 .build();
         try{
@@ -64,16 +62,27 @@ public class GameService implements IGameService {
     }
 
     @Override
-    public Game joinGame(int gameId, List<User> players) {
-        Game newGame = gameRepository.joinGame(gameId, players);
+    @Transactional
+    public Integer updatePending(Long gameId) {
+        Integer successCount = gameRepository.updatePending(gameId);
+        Game newGame = gameRepository.getGame(gameId);
         if(newGame.getPending() == 0){
-            notifyGameStart(newGame.getPlayers(), newGame.getQuestions());
+            //notifyGameStart(newGame.getPlayers(), gameId);
         }
-        return newGame;
+        return successCount;
     }
 
     @Override
+    public Integer removeFromGame(Long gameId, Long userId) {
+        return gameRepository.removeFromGame(gameId, userId);
+    }
+
+    @Override
+    @Transactional
     public Game createNewGame(Game game, String username) {
+        for(Question question : game.getQuestions()){
+            question.setGame(game);
+        }
         Game newGame = gameRepository.save(game);
         List<String> playerTokens = new ArrayList<>();
         for(User player : newGame.getPlayers()){
@@ -109,8 +118,8 @@ public class GameService implements IGameService {
     }
 
     @Override
-    public List<User> getPlayers(int gameId) {
-        return gameRepository.getPlayers(gameId).getPlayers();
+    public List<User> getPlayers(Long gameId) {
+        return gameRepository.getGame(gameId).getPlayers();
     }
 
 }

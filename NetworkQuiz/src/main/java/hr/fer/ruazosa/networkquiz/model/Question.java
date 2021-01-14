@@ -25,7 +25,7 @@ public class Question {
      */
 
     @ManyToOne
-    @JoinColumn(name = "game_id")
+    @JoinColumn(name = "gameId")
     private Game game;
 
     public void setId(Long id){

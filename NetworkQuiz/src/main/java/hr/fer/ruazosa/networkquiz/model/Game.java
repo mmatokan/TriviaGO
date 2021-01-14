@@ -10,7 +10,7 @@ import java.util.List;
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "game_id")
+    @Column(name = "gameId")
     private Long gameId;
 
     @Size(min=5, message = "Game must have at least 5 questions")

@@ -3,6 +3,7 @@ package hr.fer.ruazosa.networkquiz.controller;
 import hr.fer.ruazosa.networkquiz.service.IGameService;
 import hr.fer.ruazosa.networkquiz.model.Game;
 import hr.fer.ruazosa.networkquiz.model.User;
+import net.bytebuddy.implementation.bind.annotation.FieldValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,21 +21,16 @@ public class GameController {
     }
 
     @PatchMapping("/joinGame/{id}")
-    public Game joinGameResponse(@PathVariable("id") int gameId, @RequestParam("response") boolean response, @RequestBody User user){
-        List<User> players = gameService.getPlayers(gameId);
+    public boolean joinGameResponse(@PathVariable("id") Long gameId, @FieldValue("response") boolean response, @RequestParam("user_id") Long userId){
         if(!response){
-            players.remove(user);
+            gameService.removeFromGame(gameId, userId);
         }
-        return gameService.joinGame(gameId, players);
-    }
-
-    @GetMapping("/sendGameInvitation")
-    public int sendGameInvitation(List<String> token, String username, Long gameId){
-        return gameService.sendGameInvitations(token, username, gameId);
+        Integer successCount = gameService.updatePending(gameId);
+        return successCount > 0;
     }
 
     @GetMapping("/getPlayers/{id}")
-    public List<User> getPlayers(@PathVariable("id") int gameId){
+    public List<User> getPlayers(@PathVariable("id") Long gameId){
         return gameService.getPlayers(gameId);
     }
 }
