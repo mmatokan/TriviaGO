@@ -61,6 +61,7 @@ class WaitForGameStart : AppCompatActivity() {
                 val startGameIntent = Intent(applicationContext,GameActivity::class.java)
                 gamedata = RunnableGame(questions!!,gameId?.toInt()!!)
                 startGameIntent.putExtra("gamedata", gamedata)
+                startGameIntent.putExtra("game_id", gameId)
                 startActivity(startGameIntent)
             }
         }

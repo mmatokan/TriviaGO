@@ -38,5 +38,9 @@ interface  UserService {
     @GET("/users")
     fun getLeaderboard():List<User>
 
+    @POST("/postResult/{id}")
+    @FormUrlEncoded
+    fun postResult(@Path("id") gameId: Long, @Field("user_id") userId: Long, @Query("score") score: Int): Boolean?
+
 
 }

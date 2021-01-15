@@ -16,4 +16,6 @@ interface RestInterface {
     fun createNewGame(game: Game, username: String): Boolean?
     fun joinGameResponse(gameId: Long, response: Boolean, userId: Long): Boolean?
     fun getLeaderboard(): List<User>?
+
+    fun postResult(gameId: Long, userId: Long, score: Int): Boolean?
 }

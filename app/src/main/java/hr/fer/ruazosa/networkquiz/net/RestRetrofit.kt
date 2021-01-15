@@ -66,4 +66,8 @@ class RestRetrofit : RestInterface{
     override fun getLeaderboard(): List<User>? {
         return service.getLeaderboard()
     }
+
+    override fun postResult(gameId: Long, userId: Long, score: Int): Boolean?{
+        return service.postResult(gameId, userId, score)
+    }
 }

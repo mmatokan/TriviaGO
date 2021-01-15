@@ -25,6 +25,7 @@ class GameActivity : AppCompatActivity() ,QuestionFragment.onDataPass{
 
     var questions: List<Question>?=null
     var gamedata: RunnableGame? = null
+    var gameId: String? = null
     var current:Int = 0
     var correctlyAnswered : Int = 0
     var timer : CountDownTimer? = null
@@ -35,6 +36,7 @@ class GameActivity : AppCompatActivity() ,QuestionFragment.onDataPass{
 
         //Getting the questions
         gamedata = intent.getSerializableExtra("gamedata") as RunnableGame
+        gameId = intent.getSerializableExtra("gameId") as String
         questions = gamedata?.questions
 
         //Setup
@@ -65,14 +67,14 @@ class GameActivity : AppCompatActivity() ,QuestionFragment.onDataPass{
     override fun onDataPass(answer: String?) {
         if(answer?.equals(questions!![current].answer)!!){
             val toastMsg = "Correct!"
-            correctlyAnswered++;
+            correctlyAnswered++
             Toast.makeText(this,toastMsg,Toast.LENGTH_SHORT).show()
         }
         current++
         if (current < questions?.size!!)
             openFragment(questions!![current].question)
         else{
-            finishGame();
+            finishGame()
         }
     }
 
@@ -98,11 +100,12 @@ class GameActivity : AppCompatActivity() ,QuestionFragment.onDataPass{
     fun finishGame(){
         val timeRemaining : Int = remainingSeconds?.text?.toString()?.toInt()!!
         val score : Long = (timeRemaining * correctlyAnswered).toLong()
-        // TODO: Čekati da svi završe i poslati score na backend, proglašavanje pobjednika
 
         // Pokreni waiting for finish
-        /*val waitingForFinishIntent = Intent(this, ChoosePlayersActivity::class.java)
-        startActivity(waitingForFinishIntent)
-        finish()*/
+        val intent = Intent(this, WaitForFinishActivity::class.java)
+        intent.putExtra("game_id", gameId)
+        intent.putExtra("score", score)
+        startActivity(intent)
+        finish()
     }
 }
