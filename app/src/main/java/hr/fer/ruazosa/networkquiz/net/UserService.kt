@@ -32,5 +32,7 @@ interface  UserService {
     @FormUrlEncoded
     fun joinGameResponse(@Path("id") gameId: Long, @Field("response") response: Boolean, @Query("user_id") userId: Long): Boolean?
 
+    @GET("/getQuestions/{gameid}")
+    fun getQuestionsFromGame(@Path("gameid") gameId:Long): List<Question> ?
 
 }

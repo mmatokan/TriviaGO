@@ -44,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
         override fun doInBackground(vararg user: ShortUser): User? {
             val rest = RestFactory.instance
             val user = rest.loginUser(user[0])
-            /*
+
             if(user != null) {
                 FirebaseMessaging.getInstance().token.addOnCompleteListener(
                     OnCompleteListener { task ->
@@ -61,7 +61,6 @@ class LoginActivity : AppCompatActivity() {
                         }
                     })
             }
-             */
             return user
         }
 

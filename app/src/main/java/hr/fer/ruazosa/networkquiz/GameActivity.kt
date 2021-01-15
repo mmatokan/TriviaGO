@@ -1,0 +1,108 @@
+package hr.fer.ruazosa.networkquiz
+
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.os.CountDownTimer
+import android.widget.FrameLayout
+import android.widget.TextView
+import android.widget.Toast
+import androidx.core.math.MathUtils
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import hr.fer.ruazosa.networkquiz.entity.CatQuestions
+import hr.fer.ruazosa.networkquiz.entity.Game
+import hr.fer.ruazosa.networkquiz.entity.Question
+import hr.fer.ruazosa.networkquiz.entity.RunnableGame
+import kotlin.math.floor
+
+class GameActivity : AppCompatActivity() ,QuestionFragment.onDataPass{
+
+    var fragmentContainer : FrameLayout?=null
+    var remainingMinutes : TextView?=null
+    var remainingSeconds : TextView?=null
+
+    var questions: List<Question>?=null
+    var gamedata: RunnableGame? = null
+    var current:Int = 0
+    var correctlyAnswered : Int = 0
+    var timer : CountDownTimer? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_game)
+
+        //Getting the questions
+        gamedata = intent.getSerializableExtra("gamedata") as RunnableGame
+        questions = gamedata?.questions
+
+        //Setup
+        fragmentContainer = findViewById(R.id.fragmentContainer)
+        remainingMinutes = findViewById(R.id.remainingMinutes)
+        remainingMinutes?.text = "00"
+        remainingSeconds = findViewById(R.id.remainingSeconds)
+
+        // Timer setup
+        timer = object: CountDownTimer(60000,1000){
+            override fun onFinish() {
+                finishGame()
+            }
+
+            override fun onTick(millisUntilFinished: Long) {
+                remainingSeconds?.text = floor((millisUntilFinished/1000).toDouble()).toInt().toString()
+            }
+        }
+        timer?.start()
+
+        // Opens the first question
+        openFragment(questions!![current].question)
+    }
+
+
+
+    // Evaluates the answer, shows the appropriate message, opens the next question
+    override fun onDataPass(answer: String?) {
+        if(answer?.equals(questions!![current].answer)!!){
+            val toastMsg = "Correct!"
+            correctlyAnswered++;
+            Toast.makeText(this,toastMsg,Toast.LENGTH_SHORT).show()
+        }
+        current++
+        if (current < questions?.size!!)
+            openFragment(questions!![current].question)
+        else{
+            finishGame();
+        }
+    }
+
+    // Skips, shows the msg, opens next question fragment
+    override fun skipAnswer() {
+        Toast.makeText(applicationContext, "Skipped!", Toast.LENGTH_SHORT).show()
+        current++
+        if (current < questions?.size!!)
+            openFragment(questions!![current].question)
+        else{
+            finishGame()
+        }
+    }
+
+    // Opens the fragment, passing the textQuestion as the only parameter
+    fun openFragment(questionText: String){
+        var fragment : QuestionFragment = QuestionFragment.newInstance(questionText)
+        var manager: FragmentManager = supportFragmentManager
+        var transaction: FragmentTransaction = manager.beginTransaction()
+        transaction.add(R.id.fragmentContainer,fragment,"QUESTION_FRAGMENT").commit()
+    }
+
+    fun finishGame(){
+        val timeRemaining : Int = remainingSeconds?.text?.toString()?.toInt()!!
+        val score : Long = (timeRemaining * correctlyAnswered).toLong()
+        // TODO: Čekati da svi završe i poslati score na backend, proglašavanje pobjednika
+
+        // Pokreni waiting for finish
+        /*val waitingForFinishIntent = Intent(this, ChoosePlayersActivity::class.java)
+        startActivity(waitingForFinishIntent)
+        finish()*/
+    }
+}
