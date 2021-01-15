@@ -1,4 +1,7 @@
 package hr.fer.ruazosa.networkquiz.model;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 @Entity
@@ -24,6 +27,8 @@ public class Question {
 
      */
 
+    // Bez ovoga se dobije beskonacna rekurzija u JSON-u
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne
     @JoinColumn(name = "gameId")
     private Game game;
