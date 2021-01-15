@@ -1,5 +1,6 @@
 package hr.fer.ruazosa.networkquiz
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -8,8 +9,9 @@ import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import hr.fer.ruazosa.networkquiz.entity.Question
+import hr.fer.ruazosa.networkquiz.entity.RunnableGame
 import hr.fer.ruazosa.networkquiz.net.RestFactory
 import kotlinx.android.synthetic.main.join_game_dialog.*
 
@@ -18,14 +20,18 @@ class JoinGameActivity : AppCompatActivity() {
     var response: Boolean = true
     var userId: Long? = null
 
-    lateinit var receiver: BroadcastReceiver
+    var questions: List<Question>?=null
+    lateinit var gamedata: RunnableGame
+    var gameId: String? = null
+
+    private lateinit var receiver: BroadcastReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join_game)
 
-        var message = intent.getStringExtra("message")
-        var gameId = intent.getStringExtra("game_id")
+        val message = intent.getStringExtra("message")
+        gameId = intent.getStringExtra("game_id")
 
         userId = loadUserId()
 
@@ -33,16 +39,14 @@ class JoinGameActivity : AppCompatActivity() {
 
         joinGameButton.setOnClickListener {
             response = true
-            JoinGameResponse().execute(gameId.toLong())
+            JoinGameResponse().execute(gameId?.toLong())
         }
 
         declineGameButton.setOnClickListener {
             response = false
-            JoinGameResponse().execute(gameId.toLong())
+            JoinGameResponse().execute(gameId?.toLong())
             val intent = Intent(this, MyProfileActivity::class.java)
-            //intent.putExtra("user", user)
             startActivity(intent)
-
         }
 
         receiver = object : BroadcastReceiver(){
@@ -52,12 +56,9 @@ class JoinGameActivity : AppCompatActivity() {
                 Log.i("Receiver", "Broadcast received: $action")
 
                 if(action.equals("begin")) {
-                    val gameId = intent?.getStringExtra("game_id")
+                    gameId = intent?.getStringExtra("game_id")
                     //TODO get questions and start game
-                    val toast = Toast.makeText(applicationContext,"game starting", Toast.LENGTH_LONG)
-                    toast.show()
-                    val intent = Intent(this@JoinGameActivity, MyProfileActivity::class.java)
-                    startActivity(intent)
+                    Questions().execute(gameId?.toLong())
                 }
             }
         }
@@ -69,18 +70,18 @@ class JoinGameActivity : AppCompatActivity() {
         return sharedPreferences.getLong("USER_ID", 0)
     }
 
+    @SuppressLint("StaticFieldLeak")
     private inner class JoinGameResponse: AsyncTask<Long, Void, Boolean?>(){
 
         override fun doInBackground(vararg id: Long?): Boolean? {
             val rest = RestFactory.instance
-            if(id[0] != null && response != null && userId != null){
-                return rest.joinGameResponse(id[0]!!, response, userId!!)
-            }
-            else {
+            return if(id[0] != null && userId != null){
+                rest.joinGameResponse(id[0]!!, response, userId!!)
+            } else {
                 Log.d("ID", id[0].toString())
                 Log.d("RESPONSE", response.toString())
                 Log.d("USER_ID", userId.toString())
-                return false
+                false
             }
         }
 
@@ -92,6 +93,28 @@ class JoinGameActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private inner class Questions: AsyncTask<Long, Void, List<Question>?>(){
+        override fun doInBackground(vararg p0: Long?): List<Question>? {
+            val rest = RestFactory.instance
+            return p0[0]?.let { rest.getQuestionsFromGame(it) } // Get the questions
+        }
+
+        override fun onPostExecute(result: List<Question>?) {
+            Log.d("RESULT",result.toString())
+            if (result != null) {
+                questions = result
+
+                // Start the game
+                val startGameIntent = Intent(applicationContext,GameActivity::class.java)
+                gamedata = RunnableGame(questions!!,gameId!!.toInt())
+                startGameIntent.putExtra("gamedata", gamedata)
+                startActivity(startGameIntent)
+            }
+        }
+
     }
 
     public override fun onStart() {

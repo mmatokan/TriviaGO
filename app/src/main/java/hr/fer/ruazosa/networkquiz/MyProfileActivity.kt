@@ -1,5 +1,6 @@
 package hr.fer.ruazosa.networkquiz
 
+import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
@@ -14,10 +15,7 @@ import hr.fer.ruazosa.networkquiz.net.RestFactory
 import kotlinx.android.synthetic.main.activity_my_profile.*
 import kotlinx.android.synthetic.main.join_game_dialog.view.*
 
-//TODO user se treba slati u svim aktivnostima kada se moze vratiti na profil
 class MyProfileActivity : AppCompatActivity() {
-
-    //lateinit var reciever: BroadcastReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,17 +30,18 @@ class MyProfileActivity : AppCompatActivity() {
             val intent = Intent(this, CategoryActivity::class.java) //ovisi u kojem redosljedu ide; kategorija -> igraci -> pitanja?
             intent.putExtra("user", user)
             startActivity(intent)
-            //finish()
         }
         leaderboardButton.setOnClickListener {
             val intent = Intent(this, LeaderboardActivity::class.java)
             intent.putExtra("user", user)
             startActivity(intent)
-            val toastMessage =
-                Toast.makeText(applicationContext, "Lets cry", Toast.LENGTH_LONG)
-            toastMessage.show()
         }
 
+    }
+
+    private fun loadUsername(): String?{
+        val sharedPreferences = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("USERNAME", null)
     }
 
     private inner class UserRank: AsyncTask<String, Void, User?>() {

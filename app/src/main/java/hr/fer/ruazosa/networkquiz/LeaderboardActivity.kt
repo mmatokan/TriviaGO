@@ -1,9 +1,9 @@
 package hr.fer.ruazosa.networkquiz
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -21,10 +21,10 @@ class LeaderboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_leaderboard)
 
-        var user = intent.getSerializableExtra("user") as? User
+        val user = intent.getSerializableExtra("user") as? User
 
-        data = mutableListOf<User>()
-        GetLeaderboard().execute()
+        data = mutableListOf()
+        GetLeaderBoard().execute()
 
         returnButton.setOnClickListener {
             val returnIntent = Intent(this, MyProfileActivity::class.java)
@@ -41,7 +41,8 @@ class LeaderboardActivity : AppCompatActivity() {
         leaderboardUsersRecyclerView.addItemDecoration(decorator)
     }
 
-    private inner class GetLeaderboard:AsyncTask<String, Void, List<User>?>(){
+    @SuppressLint("StaticFieldLeak")
+    private inner class GetLeaderBoard:AsyncTask<String, Void, List<User>?>(){
 
         override fun doInBackground(vararg usernameToExclude: String): List<User>? {
             val rest = RestFactory.instance
