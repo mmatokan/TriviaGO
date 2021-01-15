@@ -1,7 +1,9 @@
 package hr.fer.ruazosa.networkquiz
 
+import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -19,10 +21,14 @@ class LeaderboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_leaderboard)
 
+        var user = intent.getSerializableExtra("user") as? User
+
         data = mutableListOf<User>()
         GetLeaderboard().execute()
 
         returnButton.setOnClickListener {
+            val returnIntent = Intent(this, MyProfileActivity::class.java)
+            returnIntent.putExtra("user",user)
             onBackPressed()
             finish()
         }
@@ -31,26 +37,23 @@ class LeaderboardActivity : AppCompatActivity() {
         adapter = LeaderboardUserAdapter(data)
         leaderboardUsersRecyclerView.adapter = adapter
         val decorator = DividerItemDecoration(applicationContext, LinearLayoutManager.VERTICAL)
-        decorator.setDrawable(
-            ContextCompat.getDrawable(
-                applicationContext,
-                R.drawable.decorator1
-            )!!
-        )
+        decorator.setDrawable(ContextCompat.getDrawable(applicationContext,R.drawable.decorator1)!!)
         leaderboardUsersRecyclerView.addItemDecoration(decorator)
     }
 
-    private inner class GetLeaderboard:AsyncTask<String, Void, MutableList<User>?>(){
+    private inner class GetLeaderboard:AsyncTask<String, Void, List<User>?>(){
 
-        override fun doInBackground(vararg usernameToExclude: String): MutableList<User>? {
+        override fun doInBackground(vararg usernameToExclude: String): List<User>? {
             val rest = RestFactory.instance
             return rest.getLeaderboard()
         }
 
-        override fun onPostExecute(users: MutableList<User>?) {
+        override fun onPostExecute(users: List<User>?) {
             if (users != null) {
-                data = users
+                this@LeaderboardActivity.data.addAll(users)
+                adapter.notifyDataSetChanged()
             }
+
         }
     }
 }

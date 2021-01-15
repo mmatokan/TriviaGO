@@ -35,4 +35,8 @@ interface  UserService {
     @GET("/getQuestions/{gameid}")
     fun getQuestionsFromGame(@Path("gameid") gameId:Long): List<Question> ?
 
+    @GET("/users")
+    fun getLeaderboard():List<User>
+
+
 }
