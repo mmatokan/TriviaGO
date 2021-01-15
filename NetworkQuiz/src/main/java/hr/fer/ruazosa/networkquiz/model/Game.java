@@ -33,6 +33,9 @@ public class Game {
     @Column(name = "pending")
     private int pending;
 
+    @Column(name = "finished")
+    private int finished = 0;
+
     public void setGameId(Long gameId){
         this.gameId = gameId;
     }
@@ -63,6 +66,10 @@ public class Game {
 
     public int getPending(){
         return this.pending;
+    }
+
+    public int getFinished(){
+        return this.finished;
     }
 
     public void removePlayer(User token){

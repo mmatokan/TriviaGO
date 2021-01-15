@@ -119,4 +119,14 @@ public class GameService implements IGameService {
         return gameRepository.getGame(gameId).getPlayers();
     }
 
+    @Override
+    public boolean postResult(Long gameId, Long userId, int score) {
+        //TODO update ostale statistike usera (br tocnih odgovora umjesto accuracy)
+        //TODO post to GameUsers (game user repository)
+        //TODO update finished in Game (update finished)
+        //TODO check if finished == game.players.size(): if true send batch messages to all players (get game)
+        //TODO if true get winner from game_users dobijes user_id pa jos jedan get za username pop user_idju
+        return false;
+    }
+
 }

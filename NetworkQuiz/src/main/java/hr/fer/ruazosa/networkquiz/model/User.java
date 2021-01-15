@@ -41,6 +41,7 @@ public class User {
     private int score;
     @Column(name = "games_played")
     private int gamesPlayed;
+    //TODO correct
     @Column(name = "accuracy")
     private int accuracy;
     @Column(name = "rank")

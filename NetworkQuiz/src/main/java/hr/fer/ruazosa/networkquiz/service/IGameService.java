@@ -17,4 +17,5 @@ public interface IGameService {
     boolean createNewGame(Game game, String username);
     int sendGameInvitations(List<String> token, String username, Long gameId);
     List<User> getPlayers(Long gameId);
+    boolean postResult(Long gameId, Long userId, int score);
 }

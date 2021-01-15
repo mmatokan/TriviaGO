@@ -17,6 +17,10 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
     @Query(value = "UPDATE Game SET pending = pending - 1 WHERE game_id = ?1", nativeQuery = true)
     Integer updatePending(Long gameId);
 
+    @Modifying
+    @Query(value = "UPDATE Game SET finished = finished + 1 WHERE game_id = ?1", nativeQuery = true)
+    Integer updateFinished(Long gameId);
+
     @Query(value = "DELETE FROM Game WHERE gameId = ?1 AND userId = ?2")
     Integer removeFromGame(Long gameId, Long userId);
 

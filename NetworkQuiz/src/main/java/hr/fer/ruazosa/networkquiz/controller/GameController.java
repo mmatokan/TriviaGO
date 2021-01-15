@@ -33,4 +33,9 @@ public class GameController {
     public List<User> getPlayers(@PathVariable("id") Long gameId){
         return gameService.getPlayers(gameId);
     }
+
+    @PostMapping("/postResult/{id}")
+    public boolean postResult(@PathVariable("id") Long gameId, @FieldValue("user_id") Long userId, @RequestParam("score") int score){
+        return gameService.postResult(gameId, userId, score);
+    }
 }
