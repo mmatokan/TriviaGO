@@ -9,7 +9,7 @@ interface RestInterface {
     fun getCategories(count: Int): List<Category>?
     fun getOpponents(usernameToExclude: String) : List<User>?
     fun getUserToken(username: String): String?
-    fun setNewToken(username: String, token: String): String?
+    fun setNewToken(username: String, token: String): Long?
     fun getQuestions(categoryId: Int): CatQuestions?
     fun getQuestionsFromGame(gameId:Long): List<Question>?
     fun createNewGame(game: Game, username: String): Boolean?

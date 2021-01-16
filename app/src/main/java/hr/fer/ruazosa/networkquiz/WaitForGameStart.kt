@@ -63,6 +63,7 @@ class WaitForGameStart : AppCompatActivity() {
                 startGameIntent.putExtra("gamedata", gamedata)
                 startGameIntent.putExtra("game_id", gameId)
                 startActivity(startGameIntent)
+                finish()
             }
         }
 

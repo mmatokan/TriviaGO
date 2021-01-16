@@ -43,8 +43,7 @@ class WaitForFinishActivity : AppCompatActivity() {
                     winnerIntent.putExtra("username", username)
                     winnerIntent.putExtra("score", score)
                     startActivity(winnerIntent)
-
-                    //TODO show winner
+                    finish()
                 }
             }
         }

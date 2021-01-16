@@ -108,7 +108,7 @@ class SignUpActivity : AppCompatActivity() {
         editor.apply{
             putString("USERNAME", user.username)
             putString("PASSWORD", user.password)
-            putLong("USER_ID", user.id.toLong())
+            putLong("USER_ID", user.id!!.toLong())
         }.apply()
     }
 }

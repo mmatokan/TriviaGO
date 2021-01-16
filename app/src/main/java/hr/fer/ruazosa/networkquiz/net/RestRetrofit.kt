@@ -43,7 +43,7 @@ class RestRetrofit : RestInterface{
         return service.getUserToken(username)
     }
 
-    override fun setNewToken(username: String, token: String): String? {
+    override fun setNewToken(username: String, token: String): Long? {
        return service.setNewToken(username, token)
     }
 

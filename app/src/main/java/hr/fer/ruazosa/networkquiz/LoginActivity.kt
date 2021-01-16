@@ -20,7 +20,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        signUpButton.setOnClickListener{
+        signUpButton.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
             //finish()
@@ -39,13 +39,19 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private inner class LoginUser: AsyncTask<ShortUser, Void, User?>() {
+    private inner class LoginUser : AsyncTask<ShortUser, Void, User?>() {
 
         override fun doInBackground(vararg user: ShortUser): User? {
             val rest = RestFactory.instance
             val user = rest.loginUser(user[0])
 
-            if(user != null) {
+            return user
+        }
+
+        override fun onPostExecute(user: User?) {
+            val rest = RestFactory.instance
+            if (user != null) {
+
                 FirebaseMessaging.getInstance().token.addOnCompleteListener(
                     OnCompleteListener { task ->
                         if (!task.isSuccessful) {
@@ -56,24 +62,18 @@ class LoginActivity : AppCompatActivity() {
                         // Get new FCM registration token
                         val token = task.result
                         if (user.token != token.toString()) {
-                            //rest.setNewToken(user.username, token.toString()) ovo dovrsiti
+                            UpdateToken().execute(user.username, token.toString())//ovo dovrsiti
 
                         }
                     })
-            }
-            return user
-        }
-
-        override fun onPostExecute(user: User?) {
-            if (user != null) {
                 saveUsername(user)
 
                 val intent = Intent(this@LoginActivity, MyProfileActivity::class.java)
                 intent.putExtra("user", user)
                 startActivity(intent)
-            }
-            else{
-                val toast = Toast.makeText(applicationContext ,"Login failed!",
+            } else {
+                val toast = Toast.makeText(
+                    applicationContext, "Login failed!",
                     Toast.LENGTH_SHORT
                 )
                 toast.show()
@@ -82,13 +82,22 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveUsername(user: User){
+    private fun saveUsername(user: User) {
         val sharedPreferences = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        editor.apply{
+        editor.apply {
             putString("USERNAME", user.username)
             putString("PASSWORD", user.password)
-            putLong("USER_ID", user.id.toLong())
+            putLong("USER_ID", user.id!!.toLong())
         }.apply()
+    }
+
+    private inner class UpdateToken : AsyncTask<String, Void, Long>() {
+
+
+        override fun doInBackground(vararg p0: String): Long? {
+            var rest = RestFactory.instance
+            return rest.setNewToken(p0[0], p0[1])
+        }
     }
 }

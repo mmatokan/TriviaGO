@@ -90,6 +90,7 @@ class JoinGameActivity : AppCompatActivity() {
                 if(response){
                     val intent = Intent(this@JoinGameActivity, WaitForGameStart::class.java)
                     startActivity(intent)
+                    finish()
                 }
             }
         }
