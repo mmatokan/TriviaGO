@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -65,26 +66,34 @@ class GameActivity : AppCompatActivity() ,QuestionFragment.onDataPass{
 
     // Evaluates the answer, shows the appropriate message, opens the next question
     override fun onDataPass(answer: String?) {
-        if(answer?.equals(questions!![current].answer)!!){
-            val toastMsg = "Correct!"
-            correctlyAnswered++
-            Toast.makeText(this,toastMsg,Toast.LENGTH_SHORT).show()
+        val timeRemaining : Int = remainingSeconds?.text?.toString()?.toInt()!!
+        if (answer != null) {
+            if(answer.toLowerCase()?.equals(questions!![current].answer.toLowerCase())!!){
+                val toastMsg = "Correct!"
+                correctlyAnswered++
+                Toast.makeText(this,toastMsg,Toast.LENGTH_SHORT).show()
+            }
         }
         current++
         if (current < questions?.size!!)
             openFragment(questions!![current].question)
+        //else if(timeRemaining < 2){}
         else{
+            timer?.cancel()
             finishGame()
         }
     }
 
     // Skips, shows the msg, opens next question fragment
     override fun skipAnswer() {
+        val timeRemaining : Int = remainingSeconds?.text?.toString()?.toInt()!!
         Toast.makeText(applicationContext, "Skipped!", Toast.LENGTH_SHORT).show()
         current++
         if (current < questions?.size!!)
             openFragment(questions!![current].question)
+        //else if(timeRemaining < 2){}
         else{
+            timer?.cancel()
             finishGame()
         }
     }
@@ -98,6 +107,7 @@ class GameActivity : AppCompatActivity() ,QuestionFragment.onDataPass{
     }
 
     fun finishGame(){
+        Log.w("Pozvano", " finishGame()")
         val timeRemaining : Int = remainingSeconds?.text?.toString()?.toInt()!!
         var score : Long = correctlyAnswered.toLong()
         if(timeRemaining > 0){
@@ -110,6 +120,9 @@ class GameActivity : AppCompatActivity() ,QuestionFragment.onDataPass{
         intent.putExtra("score", score)
         intent.putExtra("correct", correctlyAnswered.toLong())
         startActivity(intent)
-        //finish()
+        finish()
+    }
+
+    public override fun onBackPressed() {
     }
 }

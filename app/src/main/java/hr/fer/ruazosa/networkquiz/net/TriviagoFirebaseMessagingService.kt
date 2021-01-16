@@ -66,7 +66,7 @@ class TriviagoFirebaseMessagingService : FirebaseMessagingService() {
 
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, FLAG_ONE_SHOT)
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.mipmap.ic_launcher)
+            .setSmallIcon(R.mipmap.network_quiz_icon_round)
             .setContentTitle("New game available")
             .setContentText(message)
             .setAutoCancel(true)

@@ -60,6 +60,7 @@ class WaitForFinishActivity : AppCompatActivity() {
         override fun doInBackground(vararg params: Long?): Boolean? {
             val rest = RestFactory.instance
             val userId = loadUserId()!!
+            Log.w("Parametri: ", score.toString() + " "+ correct.toString())
             return params[0]?.let { rest.postResult(it, userId, score!!.toInt(), correct!!.toInt()) }
         }
 
@@ -69,7 +70,7 @@ class WaitForFinishActivity : AppCompatActivity() {
         super.onStart()
         LocalBroadcastManager.getInstance(this).registerReceiver(
             receiver,
-            IntentFilter("begin")
+            IntentFilter("winner")
         )
     }
 
@@ -78,5 +79,8 @@ class WaitForFinishActivity : AppCompatActivity() {
         super.onStop()
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
 
+    }
+
+    public override fun onBackPressed() {
     }
 }

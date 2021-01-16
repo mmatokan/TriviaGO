@@ -11,14 +11,15 @@ import kotlinx.android.synthetic.main.activity_my_profile.*
 
 class MyProfileActivity : AppCompatActivity() {
 
+    lateinit var user : User
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_profile)
-        var user = intent.getSerializableExtra("user") as? User
 
-        usernameTextView?.text = user?.username
 
-        UserRank().execute(user?.username)
+        //usernameTextView?.text = user?.username
+
+        UserRank().execute(loadUsername())
 
         startNewGameButton.setOnClickListener {
             val intent = Intent(this, CategoryActivity::class.java) //ovisi u kojem redosljedu ide; kategorija -> igraci -> pitanja?
@@ -47,6 +48,10 @@ class MyProfileActivity : AppCompatActivity() {
         }
 
         override fun onPostExecute(user: User?) {
+            if (user != null) {
+                this@MyProfileActivity.user = user
+            }
+            this@MyProfileActivity.usernameTextView.text = user?.username
             positionNumberView?.text = user?.rank.toString()
             gamesNumberView?.text = user?.gamesPlayed.toString()
             accuracyPercentageView?.text = user?.correct.toString()

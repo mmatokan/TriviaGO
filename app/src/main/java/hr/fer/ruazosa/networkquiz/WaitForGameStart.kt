@@ -82,4 +82,7 @@ class WaitForGameStart : AppCompatActivity() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
 
     }
+
+    public override fun onBackPressed() {
+    }
 }

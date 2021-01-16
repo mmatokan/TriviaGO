@@ -66,7 +66,6 @@ class LoginActivity : AppCompatActivity() {
 
         override fun onPostExecute(user: User?) {
             if (user != null) {
-
                 saveUsername(user)
 
                 val intent = Intent(this@LoginActivity, MyProfileActivity::class.java)
