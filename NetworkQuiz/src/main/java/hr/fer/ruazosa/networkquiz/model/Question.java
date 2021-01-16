@@ -49,8 +49,6 @@ public class Question {
         this.game = game;
     }
 
-    //public void setMy_game_id(Long id){ this.my_game_id = id;}
-    //public Long getMy_game_id(){ return this.my_game_id;}
 
     public Long getId(){
         return this.id;

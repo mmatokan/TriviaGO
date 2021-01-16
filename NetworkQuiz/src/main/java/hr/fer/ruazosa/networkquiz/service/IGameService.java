@@ -11,11 +11,13 @@ public interface IGameService {
     int calculateScore(List<Question> questions, List<String> answers, int timeRemaining); //tocni odgovori*broj preostalih sekunda
     int notifyGameStart(List<User> players, Long gameId);
     Game startGame(int gameId);
-    void sendWinner(User user, int score);
+    Integer sendWinner(Game game, User user, int score);
     Integer updatePending(Long gameId);
     Integer removeFromGame(Long gameId, Long userId);
     boolean createNewGame(Game game, String username);
     int sendGameInvitations(List<String> token, String username, Long gameId);
     List<User> getPlayers(Long gameId);
-    boolean postResult(Long gameId, Long userId, int score);
+    boolean postResult(Long gameId, int correct, int score, Long userId);
+    User getWinner(Long gameId);
+    Integer updateFinished(Long gameId);
 }

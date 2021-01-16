@@ -35,7 +35,8 @@ public class GameController {
     }
 
     @PostMapping("/postResult/{id}")
-    public boolean postResult(@PathVariable("id") Long gameId, @FieldValue("user_id") Long userId, @RequestParam("score") int score){
-        return gameService.postResult(gameId, userId, score);
+    public boolean postResult(@PathVariable("id") Long gameId, @FieldValue("correct") int correct, @RequestParam("user_id") Long userId, @RequestParam("score") int score){
+        return gameService.postResult(gameId, correct, score, userId);
     }
+
 }

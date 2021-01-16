@@ -14,5 +14,6 @@ public interface IUserService {
     List<User> getAllUsers();
     String setNewToken(String username, String token);
     List<User> getLeaderboard();
+    Integer updateScoreAndCorrect(Long user_id, int score, int correct);
 
 }

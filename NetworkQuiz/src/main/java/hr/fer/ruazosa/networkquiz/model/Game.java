@@ -34,7 +34,7 @@ public class Game {
     private int pending;
 
     @Column(name = "finished")
-    private int finished = 0;
+    private int finished;
 
     public void setGameId(Long gameId){
         this.gameId = gameId;
@@ -50,6 +50,10 @@ public class Game {
 
     public void setPending(int pending){
         this.pending = pending;
+    }
+
+    public void setFinished(int finished){
+        this.finished = finished;
     }
 
     public Long getGameId(){

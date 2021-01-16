@@ -42,8 +42,8 @@ public class User {
     @Column(name = "games_played")
     private int gamesPlayed;
     //TODO correct
-    @Column(name = "accuracy")
-    private int accuracy;
+    @Column(name = "correct")
+    private int correct = 0;
     @Column(name = "rank")
     private int rank = 0;
 
@@ -110,8 +110,8 @@ public class User {
         this.gamesPlayed = gamesPlayed;
     }
 
-    public void setAccuracy(int accuracy) {
-        this.accuracy = accuracy;
+    public void setCorrect(int correct) {
+        this.correct = correct;
     }
 
     public void setRank(int rank){
@@ -122,8 +122,8 @@ public class User {
         return this.score;
     }
 
-    public int getAccuracy(){
-        return this.accuracy;
+    public int getCorrect(){
+        return this.correct;
     }
 
     public int getGamesPlayed(){

@@ -1,25 +1,33 @@
 package hr.fer.ruazosa.networkquiz.service;
 
 import com.google.firebase.messaging.*;
+import hr.fer.ruazosa.networkquiz.model.GameUsers;
 import hr.fer.ruazosa.networkquiz.repository.GameRepository;
 import hr.fer.ruazosa.networkquiz.model.Game;
 import hr.fer.ruazosa.networkquiz.model.Question;
 import hr.fer.ruazosa.networkquiz.model.User;
+import hr.fer.ruazosa.networkquiz.repository.GameUsersRepository;
+import hr.fer.ruazosa.networkquiz.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 //import sun.security.ssl.Debug;
 
-import javax.transaction.Transactional;
+//import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class GameService implements IGameService {
 
     @Autowired
     private GameRepository gameRepository;
+    @Autowired
+    private GameUsersRepository gameUsersRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public int calculateScore(List<Question> questions, List<String> answers, int timeRemaining) {
@@ -54,7 +62,28 @@ public class GameService implements IGameService {
     }
 
     @Override
-    public void sendWinner(User user, int score) {
+    public Integer sendWinner(Game game, User user, int score) {
+        List<String> playerTokens = new ArrayList<>();
+        for(User player : game.getPlayers()){
+            playerTokens.add(player.getToken());
+
+        }
+
+        MulticastMessage message = MulticastMessage.builder()
+                .putData("message", " The winner is " + user.getUsername())
+                .putData("username", user.getUsername())
+                .putData("score", String.valueOf(score))
+                .putData("action", "winner")
+                .addAllTokens(playerTokens)
+                .build();
+        try{
+            BatchResponse response = FirebaseMessaging.getInstance().sendMulticast(message);
+            return response.getSuccessCount();
+        }
+        catch (FirebaseMessagingException e) {
+            e.printStackTrace();
+        }
+        return 0;
 
     }
 
@@ -70,6 +99,7 @@ public class GameService implements IGameService {
     }
 
     @Override
+    @Transactional
     public Integer removeFromGame(Long gameId, Long userId) {
         return gameRepository.removeFromGame(gameId, userId);
     }
@@ -120,13 +150,39 @@ public class GameService implements IGameService {
     }
 
     @Override
-    public boolean postResult(Long gameId, Long userId, int score) {
+    @Transactional
+    public boolean postResult(Long gameId, int correct, int score, Long userId) {
+        GameUsers gameUsers = new GameUsers();
+        gameUsers.setGame(gameRepository.getGame(gameId));
+        gameUsers.setUser(userRepository.getUser(userId));
+        gameUsersRepository.save(gameUsers);
+        Integer success = updateFinished(gameId);
+        Game game = gameRepository.getGame(gameId);
+        userRepository.updateScoreAndCorrect(userId, score, correct);
+        int finished = game.getFinished();
+        if(finished== game.getPlayers().size()){
+            User winner = getWinner(gameId);
+            Integer t = sendWinner(game, winner, score);
+            return true;
+        }
+
         //TODO update ostale statistike usera (br tocnih odgovora umjesto accuracy)
         //TODO post to GameUsers (game user repository)
         //TODO update finished in Game (update finished)
         //TODO check if finished == game.players.size(): if true send batch messages to all players (get game)
         //TODO if true get winner from game_users dobijes user_id pa jos jedan get za username pop user_idju
         return false;
+    }
+
+    @Override
+    public User getWinner(Long gameId) {
+        return gameUsersRepository.getWinner(gameId);//gameUsersRepository.getWinner(gameId);
+    }
+
+    @Override
+    @Transactional
+    public Integer updateFinished(Long gameId) {
+        return gameRepository.updateFinished(gameId);
     }
 
 }

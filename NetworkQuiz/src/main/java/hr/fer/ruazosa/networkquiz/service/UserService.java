@@ -68,4 +68,9 @@ public class UserService implements IUserService {
         return allUsers;
     }
 
+    @Override
+    public Integer updateScoreAndCorrect(Long user_id, int score, int correct) {
+        return userRepository.updateScoreAndCorrect(user_id,score,correct);
+    }
+
 }
