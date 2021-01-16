@@ -8,6 +8,7 @@ import hr.fer.ruazosa.networkquiz.model.Question;
 import hr.fer.ruazosa.networkquiz.model.User;
 import hr.fer.ruazosa.networkquiz.repository.GameUsersRepository;
 import hr.fer.ruazosa.networkquiz.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -152,16 +153,21 @@ public class GameService implements IGameService {
     @Override
     @Transactional
     public boolean postResult(Long gameId, int correct, int score, Long userId) {
+        
         GameUsers gameUsers = new GameUsers();
         gameUsers.setGame(gameRepository.getGame(gameId));
         gameUsers.setUser(userRepository.getUser(userId));
+        gameUsers.setScore(score);
         gameUsersRepository.save(gameUsers);
+
         Integer success = updateFinished(gameId);
-        Game game = gameRepository.getGame(gameId);
         userRepository.updateScoreAndCorrect(userId, score, correct);
-        int finished = game.getFinished();
-        if(finished== game.getPlayers().size()){
-            User winner = getWinner(gameId);
+        int finished = getFinished(gameId);
+        List<User> players = getPlayers(gameId);
+        if(finished == players.size()){
+            Long winnerId = getWinner(gameId);
+            User winner = userRepository.getUser(winnerId);
+            Game game = gameRepository.getGame(gameId);
             Integer t = sendWinner(game, winner, score);
             return true;
         }
@@ -175,7 +181,7 @@ public class GameService implements IGameService {
     }
 
     @Override
-    public User getWinner(Long gameId) {
+    public Long getWinner(Long gameId) {
         return gameUsersRepository.getWinner(gameId);//gameUsersRepository.getWinner(gameId);
     }
 
@@ -183,6 +189,11 @@ public class GameService implements IGameService {
     @Transactional
     public Integer updateFinished(Long gameId) {
         return gameRepository.updateFinished(gameId);
+    }
+
+    @Override
+    public int getFinished(Long gameId) {
+        return gameRepository.getFinished(gameId);
     }
 
 }

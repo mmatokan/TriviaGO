@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface GameUsersRepository extends JpaRepository<GameUsers, Integer> {
 
     @Query(value = "SELECT TOP 1 user_Id FROM Game_Users WHERE game_Id = ?1 ORDER BY score DESC", nativeQuery = true)
-    User getWinner(Long gameId);
+    Long getWinner(Long gameId);
 
 }

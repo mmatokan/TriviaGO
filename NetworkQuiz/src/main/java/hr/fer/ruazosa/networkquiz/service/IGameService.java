@@ -18,6 +18,7 @@ public interface IGameService {
     int sendGameInvitations(List<String> token, String username, Long gameId);
     List<User> getPlayers(Long gameId);
     boolean postResult(Long gameId, int correct, int score, Long userId);
-    User getWinner(Long gameId);
+    Long getWinner(Long gameId);
     Integer updateFinished(Long gameId);
+    int getFinished(Long gameId);
 }
