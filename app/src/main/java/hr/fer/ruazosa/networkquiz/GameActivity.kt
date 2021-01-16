@@ -36,7 +36,7 @@ class GameActivity : AppCompatActivity() ,QuestionFragment.onDataPass{
 
         //Getting the questions
         gamedata = intent.getSerializableExtra("gamedata") as RunnableGame
-        gameId = intent.getSerializableExtra("gameId") as String
+        gameId = intent.getSerializableExtra("game_id") as String
         questions = gamedata?.questions
 
         //Setup
@@ -99,13 +99,17 @@ class GameActivity : AppCompatActivity() ,QuestionFragment.onDataPass{
 
     fun finishGame(){
         val timeRemaining : Int = remainingSeconds?.text?.toString()?.toInt()!!
-        val score : Long = (timeRemaining * correctlyAnswered).toLong()
+        var score : Long = correctlyAnswered.toLong()
+        if(timeRemaining > 0){
+            score = (timeRemaining * correctlyAnswered).toLong()
+        }
 
         // Pokreni waiting for finish
         val intent = Intent(this, WaitForFinishActivity::class.java)
         intent.putExtra("game_id", gameId)
         intent.putExtra("score", score)
+        intent.putExtra("correct", correctlyAnswered.toLong())
         startActivity(intent)
-        finish()
+        //finish()
     }
 }

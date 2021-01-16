@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import hr.fer.ruazosa.networkquiz.entity.RunnableGame
 import hr.fer.ruazosa.networkquiz.net.RestFactory
 
 class WaitForFinishActivity : AppCompatActivity() {
@@ -18,6 +17,7 @@ class WaitForFinishActivity : AppCompatActivity() {
 
     var gameId: String? = null
     var score: Long? = null
+    var correct: Long? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,9 +25,10 @@ class WaitForFinishActivity : AppCompatActivity() {
 
         score = intent.getSerializableExtra("score") as Long
         gameId = intent.getSerializableExtra("game_id") as String
+        correct = intent.getSerializableExtra("correct") as Long
 
         PostResult().execute(gameId?.toLong())
-
+        val winnerIntent: Intent = Intent(this, WinnerActivity::class.java)
         receiver = object : BroadcastReceiver(){
             override fun onReceive(context: Context?, intent: Intent?) {
                 val action = intent?.action
@@ -37,6 +38,12 @@ class WaitForFinishActivity : AppCompatActivity() {
                 if(action.equals("winner")) {
                     val username = intent?.getStringExtra("username")
                     val score = intent?.getStringExtra("score")
+                    //val correct = intent?.getStringExtra("correct")
+                     // (NewGame -> Category -> Opponents)
+                    winnerIntent.putExtra("username", username)
+                    winnerIntent.putExtra("score", score)
+                    startActivity(winnerIntent)
+
                     //TODO show winner
                 }
             }
@@ -52,7 +59,8 @@ class WaitForFinishActivity : AppCompatActivity() {
 
         override fun doInBackground(vararg params: Long?): Boolean? {
             val rest = RestFactory.instance
-            return params[0]?.let { rest.postResult(it, loadUserId()!!, score!!.toInt()) }
+            val userId = loadUserId()!!
+            return params[0]?.let { rest.postResult(it, userId, score!!.toInt(), correct!!.toInt()) }
         }
 
     }

@@ -11,7 +11,7 @@ data class User (
     var token : String
 ) : Serializable{
     var id: Int = 0
-    var accuracy: Int = 0
+    var correct: Int = 0
     var gamesPlayed: Int = 0
     var score: Int = 0
     var rank: Int = 0

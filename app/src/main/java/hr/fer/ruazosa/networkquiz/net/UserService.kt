@@ -40,7 +40,7 @@ interface  UserService {
 
     @POST("/postResult/{id}")
     @FormUrlEncoded
-    fun postResult(@Path("id") gameId: Long, @Field("user_id") userId: Long, @Query("score") score: Int): Boolean?
+    fun postResult(@Path("id") gameId: Long, @Field("correct")correct: Int, @Query("score") score: Int, @Query("user_id") userId: Long): Boolean?
 
 
 }

@@ -1,7 +1,6 @@
 package hr.fer.ruazosa.networkquiz.net
 
 import hr.fer.ruazosa.networkquiz.entity.*
-import java.util.*
 
 interface RestInterface {
     fun registerUser(user: User): User?
@@ -16,6 +15,5 @@ interface RestInterface {
     fun createNewGame(game: Game, username: String): Boolean?
     fun joinGameResponse(gameId: Long, response: Boolean, userId: Long): Boolean?
     fun getLeaderboard(): List<User>?
-
-    fun postResult(gameId: Long, userId: Long, score: Int): Boolean?
+    fun postResult(gameId: Long, userId: Long, score: Int, correct: Int): Boolean?
 }

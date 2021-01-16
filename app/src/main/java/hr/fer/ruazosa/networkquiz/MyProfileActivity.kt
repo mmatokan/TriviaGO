@@ -5,15 +5,9 @@ import android.content.Intent
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.FirebaseMessaging
 import hr.fer.ruazosa.networkquiz.entity.User
 import hr.fer.ruazosa.networkquiz.net.RestFactory
 import kotlinx.android.synthetic.main.activity_my_profile.*
-import kotlinx.android.synthetic.main.join_game_dialog.view.*
 
 class MyProfileActivity : AppCompatActivity() {
 
@@ -55,7 +49,7 @@ class MyProfileActivity : AppCompatActivity() {
         override fun onPostExecute(user: User?) {
             positionNumberView?.text = user?.rank.toString()
             gamesNumberView?.text = user?.gamesPlayed.toString()
-            accuracyPercentageView?.text = user?.accuracy.toString()
+            accuracyPercentageView?.text = user?.correct.toString()
             pointsNumberView?.text = user?.score.toString()
         }
     }

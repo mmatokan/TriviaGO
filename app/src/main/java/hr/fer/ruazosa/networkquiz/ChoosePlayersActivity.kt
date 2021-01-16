@@ -147,7 +147,7 @@ class ChoosePlayersActivity : AppCompatActivity() {
                 questionForm.add(saveQuestion)
             }
             var players = getSelectedPlayers()
-            var newGame = Game(questionForm, players, players.size - 1)
+            var newGame = Game(questionForm, players, players.size - 1, 0)
             CreateGame().execute(newGame)
 
         }

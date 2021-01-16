@@ -33,7 +33,7 @@ class LeaderboardUserAdapter (val data: MutableList<User>) : RecyclerView.Adapte
 
     override fun onBindViewHolder(holder: LeaderboardUserAdapter.ViewHolder, position: Int) {
         holder.usernameTextView.text = users[position].username
-        holder.rankTextView.text = position.toString()
+        holder.rankTextView.text = (position+1).toString()
         holder.scoreTextView.text = users[position].score.toString()
     }
 
@@ -42,7 +42,7 @@ class LeaderboardUserAdapter (val data: MutableList<User>) : RecyclerView.Adapte
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (position <= 3){
+        if (position+1 <= 3){
             return TYPE_TOP3
         } else
             return TYPE_NOT_TOP3
