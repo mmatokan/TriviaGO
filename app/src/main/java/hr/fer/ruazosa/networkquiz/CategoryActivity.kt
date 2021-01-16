@@ -78,11 +78,11 @@ class CategoryActivity : AppCompatActivity() {
 
         override fun doInBackground(vararg p0: Void?): List<Category>? {
             val rest = RestFactory.instance
-            return rest.getCategories(100)
+            return rest.getCategories(99)
         }
 
         override fun onPostExecute(categories: List<Category>?) {
-            val nextValues = List(6) { Random.nextInt(0, 100) }
+            val nextValues = (0..99).shuffled().take(6)
             this@CategoryActivity.category1 = categories!![nextValues[0]]
             this@CategoryActivity.category2 = categories[nextValues[1]]
             this@CategoryActivity.category3 = categories[nextValues[2]]

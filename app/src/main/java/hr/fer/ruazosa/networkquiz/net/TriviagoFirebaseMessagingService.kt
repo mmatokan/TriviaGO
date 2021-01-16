@@ -47,6 +47,13 @@ class TriviagoFirebaseMessagingService : FirebaseMessagingService() {
                 LocalBroadcastManager.getInstance(baseContext)
                     .sendBroadcast(intent)
             }
+            else if(action.equals("stop")) {
+                val username = remoteMessage.data["username"]
+                val score = remoteMessage.data["score"]
+                val intent = Intent("stop")
+                LocalBroadcastManager.getInstance(baseContext)
+                    .sendBroadcast(intent)
+            }
 
         }
     }

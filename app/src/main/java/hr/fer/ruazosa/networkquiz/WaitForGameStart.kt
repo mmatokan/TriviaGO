@@ -14,6 +14,7 @@ import hr.fer.ruazosa.networkquiz.entity.Game
 import hr.fer.ruazosa.networkquiz.entity.Question
 import hr.fer.ruazosa.networkquiz.entity.RunnableGame
 import hr.fer.ruazosa.networkquiz.net.RestFactory
+import kotlinx.android.synthetic.main.activity_my_profile.*
 
 
 class WaitForGameStart : AppCompatActivity() {
@@ -41,6 +42,12 @@ class WaitForGameStart : AppCompatActivity() {
                     // Get Questions
                     Questions().execute(gameId?.toLong())
 
+                } else if(action.equals("stop")){
+                    var message = Toast.makeText(applicationContext,"Nobody is available to join :(", Toast.LENGTH_LONG)
+                    message.show()
+                    val profileIntent = Intent(applicationContext, MyProfileActivity::class.java)
+                    startActivity(profileIntent)
+                    finish()
                 }
             }
         }
@@ -74,6 +81,10 @@ class WaitForGameStart : AppCompatActivity() {
         LocalBroadcastManager.getInstance(this).registerReceiver(
             receiver,
             IntentFilter("begin")
+        )
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            receiver,
+            IntentFilter("stop")
         )
     }
 
