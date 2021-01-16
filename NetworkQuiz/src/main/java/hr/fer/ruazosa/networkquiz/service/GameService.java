@@ -38,14 +38,19 @@ public class GameService implements IGameService {
     @Override
     public int notifyGameStart(List<User> players, Long gameId) {
         List<String> tokens = new ArrayList<String>(){};
+
         for(User player : players){
             tokens.add(player.getToken());
         }
+        String action;
+        if(players.size() > 1) action = "begin";
+        else action = "stop";
         MulticastMessage message = MulticastMessage.builder()
-                .putData("action", "begin")
+                .putData("action", action)
                 .putData("game_id", String.valueOf(gameId))
                 .addAllTokens(tokens)
                 .build();
+
         try{
             BatchResponse response = FirebaseMessaging.getInstance().sendMulticast(message);
             return response.getSuccessCount();
@@ -181,12 +186,6 @@ public class GameService implements IGameService {
             Integer t = sendWinner(game, winner, score);
             return true;
         }
-
-        //TODO update ostale statistike usera (br tocnih odgovora umjesto accuracy)
-        //TODO post to GameUsers (game user repository)
-        //TODO update finished in Game (update finished)
-        //TODO check if finished == game.players.size(): if true send batch messages to all players (get game)
-        //TODO if true get winner from game_users dobijes user_id pa jos jedan get za username pop user_idju
         return false;
     }
 
