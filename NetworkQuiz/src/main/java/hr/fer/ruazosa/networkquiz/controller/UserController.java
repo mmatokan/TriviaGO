@@ -4,6 +4,7 @@ import hr.fer.ruazosa.networkquiz.service.IUserService;
 import hr.fer.ruazosa.networkquiz.model.User;
 import net.bytebuddy.implementation.bind.annotation.FieldValue;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -98,8 +99,9 @@ public class UserController {
         return userService.getUserToken(username);
     }
 
-    @PatchMapping("/token/{id}")
-    public String setNewToken(@PathVariable String username, @FieldValue String token){
+    @Modifying
+    @PatchMapping("/token")
+    public Integer setNewToken(@RequestParam String username, @FieldValue String token){
         return userService.setNewToken(username, token);
     }
 

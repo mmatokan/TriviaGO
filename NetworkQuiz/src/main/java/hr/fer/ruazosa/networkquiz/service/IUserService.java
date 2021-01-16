@@ -12,7 +12,7 @@ public interface IUserService {
     String getUserToken(String username);
     List<User> getAllOpponents(String usernameToExclude);
     List<User> getAllUsers();
-    String setNewToken(String username, String token);
+    Integer setNewToken(String username, String token);
     List<User> getLeaderboard();
     Integer updateScoreAndCorrect(Long user_id, int score, int correct);
 

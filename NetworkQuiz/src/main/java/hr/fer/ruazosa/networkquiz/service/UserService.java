@@ -8,6 +8,7 @@ import hr.fer.ruazosa.networkquiz.repository.UserRepository;
 import hr.fer.ruazosa.networkquiz.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -54,7 +55,8 @@ public class UserService implements IUserService {
 
 
     @Override
-    public String setNewToken(String username, String token) {
+    @Transactional
+    public Integer setNewToken(String username, String token) {
         return userRepository.setNewToken(username, token);
     }
 

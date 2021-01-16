@@ -69,14 +69,24 @@ public class GameService implements IGameService {
             playerTokens.add(player.getToken());
 
         }
-
-        MulticastMessage message = MulticastMessage.builder()
-                .putData("message", " The winner is " + user.getUsername())
-                .putData("username", user.getUsername())
-                .putData("score", String.valueOf(score))
-                .putData("action", "winner")
-                .addAllTokens(playerTokens)
-                .build();
+        MulticastMessage message;
+        if(score > 0) {
+            message = MulticastMessage.builder()
+                    .putData("message", " The winner is " + user.getUsername())
+                    .putData("username", user.getUsername())
+                    .putData("score", String.valueOf(score))
+                    .putData("action", "winner")
+                    .addAllTokens(playerTokens)
+                    .build();
+        } else{
+            message = MulticastMessage.builder()
+                    .putData("message", " There is no winner")
+                    .putData("username", "It's a tie!")
+                    .putData("score", String.valueOf(score))
+                    .putData("action", "winner")
+                    .addAllTokens(playerTokens)
+                    .build();
+        }
         try{
             BatchResponse response = FirebaseMessaging.getInstance().sendMulticast(message);
             return response.getSuccessCount();
@@ -153,7 +163,7 @@ public class GameService implements IGameService {
     @Override
     @Transactional
     public boolean postResult(Long gameId, int correct, int score, Long userId) {
-        
+
         GameUsers gameUsers = new GameUsers();
         gameUsers.setGame(gameRepository.getGame(gameId));
         gameUsers.setUser(userRepository.getUser(userId));
