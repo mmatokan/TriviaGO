@@ -25,6 +25,7 @@ public class UserController {
 
     @PostMapping("/registerUser")
     public ResponseEntity<Object> registerUser(@RequestBody User user) {
+        user.setCorrect(0);
         // validation
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();

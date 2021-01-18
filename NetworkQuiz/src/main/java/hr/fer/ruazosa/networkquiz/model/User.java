@@ -1,7 +1,5 @@
 package hr.fer.ruazosa.networkquiz.model;
 
-import hr.fer.ruazosa.networkquiz.model.Game;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -41,7 +39,6 @@ public class User {
     private int score;
     @Column(name = "games_played")
     private int gamesPlayed;
-
     @Column(name = "correct")
     private int correct = 0;
     @Column(name = "rank")
