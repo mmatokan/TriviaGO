@@ -13,9 +13,13 @@ import hr.fer.ruazosa.networkquiz.entity.ShortUser
 import hr.fer.ruazosa.networkquiz.entity.User
 import hr.fer.ruazosa.networkquiz.net.RestFactory
 import kotlinx.android.synthetic.main.activity_login.*
+import retrofit.RetrofitError
 
 
 class LoginActivity : AppCompatActivity() {
+
+    var errorMessage : String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -36,16 +40,22 @@ class LoginActivity : AppCompatActivity() {
             )
 
             LoginUser().execute(user)
+
+
         }
     }
 
-    private inner class LoginUser : AsyncTask<ShortUser, Void, User?>() {
+    private inner class LoginUser : AsyncTask<ShortUser, Void, User?>(){
 
         override fun doInBackground(vararg user: ShortUser): User? {
             val rest = RestFactory.instance
-            val user = rest.loginUser(user[0])
-
-            return user
+            return try{
+                val logUser = rest.loginUser(user[0])
+                logUser
+            } catch (e: RetrofitError){
+                errorMessage = e.toString()
+                null
+            }
         }
 
         override fun onPostExecute(user: User?) {
@@ -72,11 +82,20 @@ class LoginActivity : AppCompatActivity() {
                 intent.putExtra("user", user)
                 startActivity(intent)
             } else {
-                val toast = Toast.makeText(
-                    applicationContext, "Login failed!",
-                    Toast.LENGTH_SHORT
-                )
-                toast.show()
+                Log.d("ERROR MESSAGE", errorMessage)
+                when(errorMessage){
+                    "retrofit.RetrofitError: 406 " -> Toast.makeText(
+                        applicationContext, "username or password are empty",
+                        Toast.LENGTH_LONG).show()
+                    "retrofit.RetrofitError: 404 " -> Toast.makeText(
+                        applicationContext, "no user found",
+                        Toast.LENGTH_SHORT).show()
+                    else -> {
+                        Toast.makeText(
+                            applicationContext, "Login failed!",
+                            Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
 
         }
