@@ -133,4 +133,6 @@ class JoinGameActivity : AppCompatActivity() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
 
     }
+
+    public override fun onBackPressed(){}
 }

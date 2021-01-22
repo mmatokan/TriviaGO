@@ -18,11 +18,12 @@
         android:layout_width="240dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="56dp"
         android:layout_marginEnd="16dp"
         android:scaleX="0.5"
         android:scaleY="0.5"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/image_clock" />
@@ -31,7 +32,7 @@
         android:id="@+id/timeLeftText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="68dp"
         android:shadowColor="@color/colorBlack"
         android:text="Time Left"
         android:textColor="@color/colorYellow"
@@ -40,21 +41,19 @@
         app:layout_constraintBottom_toBottomOf="@id/clockImage"
         app:layout_constraintStart_toStartOf="@id/clockImage"
         app:layout_constraintTop_toTopOf="@id/clockImage"
-        app:layout_constraintVertical_bias="0.6" />
+        app:layout_constraintVertical_bias="0.598" />
 
     <TextView
         android:id="@+id/remainingMinutes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
+        android:layout_marginStart="52dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:background="@drawable/rounded_bg"
         android:padding="5sp"
         android:text="09"
         android:textColor="@color/colorBlack"
         android:textSize="44sp"
-        app:layout_constraintEnd_toStartOf="@+id/textView5"
         app:layout_constraintStart_toStartOf="@id/clockImage"
         app:layout_constraintTop_toBottomOf="@id/timeLeftText" />
 
@@ -62,26 +61,25 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="62dp"
+        android:layout_marginTop="16dp"
         android:text=":"
         android:textSize="44sp"
-        app:layout_constraintEnd_toStartOf="@id/remainingSeconds"
-        app:layout_constraintStart_toEndOf="@id/remainingMinutes"
+        app:layout_constraintStart_toStartOf="@+id/remainingMinutes"
         app:layout_constraintTop_toBottomOf="@id/timeLeftText" />
 
     <TextView
         android:id="@+id/remainingSeconds"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="52dp"
         android:background="@drawable/rounded_bg"
         android:padding="5sp"
         android:text="30"
         android:textColor="@color/colorBlack"
         android:textSize="44sp"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintEnd_toEndOf="@+id/clockImage"
         app:layout_constraintTop_toBottomOf="@id/timeLeftText" />
 
     <FrameLayout
