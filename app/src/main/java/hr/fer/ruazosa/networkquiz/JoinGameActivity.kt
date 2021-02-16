@@ -55,7 +55,7 @@ class JoinGameActivity : AppCompatActivity() {
 
                 Log.i("Receiver", "Broadcast received: $action")
 
-                if(action.equals("begin")) {
+                if(action.equals("begin") && response) {
                     gameId = intent?.getStringExtra("game_id")
                     //TODO get questions and start game
                     Questions().execute(gameId?.toLong())
