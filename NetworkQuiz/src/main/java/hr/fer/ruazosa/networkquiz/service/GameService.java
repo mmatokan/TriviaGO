@@ -182,6 +182,7 @@ public class GameService implements IGameService {
         if(finished == players.size()){
             Long winnerId = getWinner(gameId);
             User winner = userRepository.getUser(winnerId);
+            score = winner.getScore();
             Game game = gameRepository.getGame(gameId);
             Integer t = sendWinner(game, winner, score);
             return true;
